@@ -105,13 +105,13 @@ body{background-color:var(--bg-color);background-image:radial-gradient(circle at
 .friend-add-btn:active{transform:scale(.94)}
 .friend-add-btn.added{background:rgba(136,160,192,.1);border-color:rgba(136,160,192,.4);color:var(--gray-glow);cursor:default}
 .friend-add-btn.pending{background:rgba(255,204,0,.1);border-color:rgba(255,204,0,.5);color:var(--gold-glow);cursor:default}
-  .name-edit-row{display:flex;gap:8px;margin-bottom:15px;align-items:stretch}
+.name-edit-row{display:flex;gap:8px;margin-bottom:15px;align-items:stretch}
 .name-edit-row input{margin-bottom:0!important;flex:1;text-transform:none!important}
 .name-save-btn{background:rgba(0,255,102,.12);border:1px solid rgba(0,255,102,.55);color:var(--green-glow);padding:0 14px;font-family:'Orbitron',sans-serif;font-size:.75rem;font-weight:700;border-radius:12px;cursor:pointer;transition:.2s;backdrop-filter:blur(10px);white-space:nowrap}
 .name-save-btn:hover{background:var(--green-glow);color:#050811}
 .name-save-btn:active{transform:scale(.95)}
 .my-name-label{font-size:.68rem;color:var(--gray-glow);margin-bottom:6px;font-family:'Orbitron',sans-serif;letter-spacing:.5px;text-align:center}
-.req-btn-group{display:flex;gap:5px}
+  .req-btn-group{display:flex;gap:5px}
 .req-accept{background:rgba(0,255,102,.15);border:1px solid rgba(0,255,102,.6);color:var(--green-glow);padding:5px 8px;font-size:.6rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s}
 .req-accept:hover{background:var(--green-glow);color:#050811}
 .req-accept:active{transform:scale(.94)}
@@ -312,8 +312,9 @@ body{background-color:var(--bg-color);background-image:radial-gradient(circle at
 👥 TEMAN SAYA <span id="myFriendCount" style="color:#88a0c0;">(0)</span>
 </div>
 <div class="friend-list-box" id="myFriendContainer" style="max-height:150px;margin-bottom:12px;"><div class="empty-inv">[ MEMUAT... ]</div></div>
-<div style="font-size:.72rem;color:var(--cyan-glow);margin-bottom:8px;font-family:'Orbitron',sans-serif;display:flex;align-items:center;gap:6px;">
-⚡ REKOMENDASI PENGGUNA <span id="friendCount" style="color:#88a0c0;">(0)</span>
+<div style="font-size:.72rem;color:var(--cyan-glow);margin-bottom:8px;font-family:'Orbitron',sans-serif;display:flex;align-items:center;justify-content:space-between;">
+<span>⚡ REKOMENDASI PENGGUNA <span id="friendCount" style="color:#88a0c0;">(0)</span></span>
+<button class="friend-reject-btn" style="font-size:.55rem;padding:3px 8px;" onclick="window.resetRecommendations()">🔄 RESET</button>
 </div>
 <div class="friend-list-box" id="friendListContainer" style="max-height:200px;"><div class="empty-inv">[ MEMUAT... ]</div></div>
 <button class="cyber-btn pink-btn" onclick="closeFriendModal()" style="width:100%;margin-top:12px;">TUTUP</button>
@@ -360,14 +361,7 @@ body{background-color:var(--bg-color);background-image:radial-gradient(circle at
 <button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://donationalerts-studio.id.uptodown.com/android" onclick="buyApkLink('https://donationalerts-studio.id.uptodown.com/android','Da studio')"><span>📲 Da studio</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
 </div>
 <div style="margin-bottom:15px;">
-<div style="color:var(--pink-glow);font-size:.8rem;font-weight:bold;margin-bottom:8px;">❖ GRUP 2 // LAUNCHER MC JAVA</div>
-<button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://github.com/ZalithLauncher/ZalithLauncher/releases" onclick="buyApkLink('https://github.com/ZalithLauncher/ZalithLauncher/releases','zalithlauncher 1')"><span>🎮 zalithlauncher 1</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
-<button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://github.com/ZalithLauncher/ZalithLauncher2" onclick="buyApkLink('https://github.com/ZalithLauncher/ZalithLauncher2','zalithlauncher 2')"><span>🎮 zalithlauncher 2</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
-<button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://github.com/Star1xr/ZalithLauncher2Plus" onclick="buyApkLink('https://github.com/Star1xr/ZalithLauncher2Plus','zalith launcher 2 plus')"><span>🎮 zalith launcher 2 plus</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
-<button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://github.com/MobileGL-Dev/MobileGlues-release" onclick="buyApkLink('https://github.com/MobileGL-Dev/MobileGlues-release','mobile glues')"><span>🧩 mobile glues</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
-</div>
-<div style="margin-bottom:15px;">
-<div style="color:var(--pink-glow);font-size:.8rem;font-weight:bold;margin-bottom:8px;">❖ GRUP 3 // MUSIK APK</div>
+<div style="color:var(--pink-glow);font-size:.8rem;font-weight:bold;margin-bottom:8px;">❖ GRUP 2 // MUSIK APK</div>
 <button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://github.com/kushagrasinghx/BitChord" onclick="buyApkLink('https://github.com/kushagrasinghx/BitChord','Bitchord')"><span>🎵 Bitchord</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
 </div>
 <button class="cyber-btn pink-btn" onclick="closeApkModal()" style="width:100%;">TUTUP KONEKSI</button>
@@ -571,6 +565,8 @@ window.clickReject=function(fromUid,username){if(!window.fbRejectRequest){showTo
 function(err){console.error(err);showToast("❌ GAGAL MENOLAK");});};
 /** @param {string} uid @param {string} username @returns {void} */
 window.clickDismissUser=function(uid,username){if(dismissedUsers.indexOf(uid)===-1){dismissedUsers.push(uid);saveData('dismissedUsers',dismissedUsers);showToast("✕ "+username+" DIHAPUS DARI REKOMENDASI");renderFriendList();}};
+/** @returns {void} */
+window.resetRecommendations=function(){if(dismissedUsers.length===0){showToast("ℹ️ TIDAK ADA YANG PERLU DI-RESET");return;}if(!confirm("Kembalikan SEMUA pemain yang pernah kamu hapus dari rekomendasi?"))return;dismissedUsers=[];saveData('dismissedUsers',dismissedUsers);showToast("✅ REKOMENDASI DI-RESET!");renderFriendList();};
   /** @type {string} */ let currentChatUid="";
 /** @type {string} */ let currentChatFilter="";
 /** @type {Array<{from:string,text:string,timestamp:number}>} */ let currentChatMessages=[];
