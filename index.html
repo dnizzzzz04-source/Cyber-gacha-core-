@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>CYBER GACHA CORE // v10.0 FINAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-color:#050811;--card-bg:rgba(13,20,36,.95);--cyan-glow:#00f0ff;--pink-glow:#ff007f;--gold-glow:#ffcc00;--purple-glow:#a100ff;--blue-glow:#0070ff;--green-glow:#00ff66;--gray-glow:#88a0c0;--mystic-glow:#ff003c;--bronze-glow:#cd7f32;--white-glow:#fff;--text-color:#e0f7fc}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Rajdhani',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background-color:var(--bg-color);background-image:radial-gradient(circle at 50% 10%,rgba(255,0,60,.12) 0,transparent 60%),radial-gradient(circle at 80% 80%,rgba(0,240,255,.08) 0,transparent 50%);color:var(--text-color);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:15px}
+.cyber-container{width:100%;max-width:520px;background:var(--card-bg);border:1px solid rgba(0,240,255,.3);border-radius:14px;padding:20px;box-shadow:0 0 35px rgba(0,240,255,.15);position:relative;margin-top:10px}
+.header{text-align:center;margin-bottom:15px;margin-top:10px}
+.header h1{font-family:'Orbitron',sans-serif;font-size:1.5rem;color:var(--cyan-glow);text-shadow:0 0 10px var(--cyan-glow)}
+.header p{font-size:.8rem;color:#88a0c0;letter-spacing:1px}
+.user-stats{background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.15);border-radius:8px;padding:12px;margin-bottom:12px}
+.level-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.level-badge{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:bold;padding:4px 10px;border-radius:4px;border:1px solid}
+.exp-text{font-size:.8rem;font-weight:bold}
+.exp-track{width:100%;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.exp-fill{height:100%;width:0%;transition:width .4s ease-out}
+.balance-card{background:rgba(0,240,255,.04);border:1px dashed var(--cyan-glow);border-radius:8px;padding:12px;text-align:center;margin-bottom:18px}
+.balance-title{font-size:.75rem;color:#88a0c0;letter-spacing:1.5px}
+.balance-value{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:700;color:#fff;text-shadow:0 0 12px var(--cyan-glow)}
+.section-title{font-family:'Orbitron',sans-serif;font-size:.88rem;color:var(--pink-glow);margin-bottom:10px;margin-top:18px;text-shadow:0 0 8px rgba(255,0,127,.5)}
+  .gacha-stage{background:rgba(5,8,17,.8);border:1px solid rgba(255,0,127,.3);border-radius:10px;padding:15px;text-align:center}
+.gacha-box{min-height:95px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1px dashed rgba(255,255,255,.15);border-radius:8px;margin-bottom:12px;padding:10px}
+.gacha-item-title{font-family:'Orbitron',sans-serif;font-size:1.05rem;font-weight:700}
+.mystery-box-container{background:rgba(255,204,0,.08);border:1px dashed var(--gold-glow);border-radius:8px;padding:15px;text-align:center;margin-bottom:15px;transition:.3s}
+.mystery-box-container.cooldown{background:rgba(255,255,255,.02);border-color:#3a4454}
+.rarity-mystic{color:var(--mystic-glow);text-shadow:0 0 15px var(--mystic-glow)}
+.rarity-legendary{color:var(--gold-glow);text-shadow:0 0 10px var(--gold-glow)}
+.rarity-epic{color:var(--purple-glow);text-shadow:0 0 10px var(--purple-glow)}
+.rarity-rare{color:var(--blue-glow);text-shadow:0 0 10px var(--blue-glow)}
+.rarity-uncommon{color:var(--green-glow);text-shadow:0 0 8px var(--green-glow)}
+.rarity-common{color:var(--gray-glow);text-shadow:0 0 5px var(--gray-glow)}
+.bg-mystic{background:rgba(255,0,60,.2);border:1px solid var(--mystic-glow)}
+.bg-legendary{background:rgba(255,204,0,.15);border:1px solid var(--gold-glow)}
+.bg-epic{background:rgba(161,0,255,.15);border:1px solid var(--purple-glow)}
+.bg-rare{background:rgba(0,112,255,.15);border:1px solid var(--blue-glow)}
+.bg-uncommon{background:rgba(0,255,102,.12);border:1px solid var(--green-glow)}
+.bg-common{background:rgba(136,160,192,.08);border:1px solid var(--gray-glow)}
+.cyber-btn{background:transparent;border:2px solid var(--cyan-glow);color:var(--cyan-glow);padding:8px 16px;font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;border-radius:6px;box-shadow:0 0 10px rgba(0,240,255,.35);transition:.2s;position:relative;z-index:10}
+.cyber-btn:hover:not(:disabled){background:var(--cyan-glow);color:#050811}
+.cyber-btn:active:not(:disabled){transform:scale(.95)}
+.cyber-btn.pink-btn{border-color:var(--pink-glow);color:var(--pink-glow);box-shadow:0 0 10px rgba(255,0,127,.35)}
+.cyber-btn.pink-btn:hover:not(:disabled){background:var(--pink-glow);color:#050811}
+.cyber-btn.gold-btn{border-color:var(--gold-glow);color:var(--gold-glow);width:100%;padding:12px;box-shadow:0 0 10px rgba(255,204,0,.35)}
+.cyber-btn.gold-btn:hover:not(:disabled){background:var(--gold-glow);color:#050811}
+.cyber-btn.sell-btn{border-color:#f90;color:#f90;padding:4px 8px;font-size:.7rem}
+.cyber-btn.sell-btn:hover:not(:disabled){background:#f90;color:#050811}
+  .cyber-btn.sell-all-btn{border-color:#f90;color:#f90;width:100%;padding:10px;box-shadow:0 0 10px rgba(255,153,0,.35);margin-top:8px}
+.cyber-btn.sell-all-btn:hover:not(:disabled){background:#f90;color:#050811}
+.redeem-btn-corner{position:absolute;top:15px;left:15px;padding:4px 8px;font-size:.65rem;border-width:1px;border-color:var(--green-glow);color:var(--green-glow)}
+.shop-btn-corner{position:absolute;top:15px;right:15px;padding:4px 8px;font-size:.65rem;border-width:1px;border-color:var(--pink-glow);color:var(--pink-glow)}
+.cyber-btn:disabled{border-color:#3a4454!important;color:#3a4454!important;box-shadow:none!important;cursor:not-allowed!important;background:rgba(255,255,255,.02)!important}
+.mission-list{display:flex;flex-direction:column;gap:10px}
+.mission-item{background:rgba(255,255,255,.02);border-left:3px solid var(--cyan-glow);border-radius:6px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center}
+.mission-info h3{font-family:'Orbitron',sans-serif;font-size:.82rem;color:#fff}
+.mission-info p{font-size:.75rem;color:#88a0c0}
+.mission-reward{font-weight:bold;color:var(--cyan-glow);font-size:.8rem}
+.inventory-box{max-height:200px;overflow-y:auto;padding-right:5px}
+.inv-item{background:rgba(255,255,255,.02);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.inv-info{display:flex;flex-direction:column}
+.inv-title{font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:bold}
+.inv-sub{font-size:.7rem;color:#88a0c0}
+.empty-inv{text-align:center;color:#556b88;font-size:.8rem;padding:15px 0;font-style:italic}
+.shop-box{max-height:260px;overflow-y:auto;padding-right:5px;margin-bottom:10px}
+.shop-item{background:rgba(255,255,255,.02);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.reset-area{text-align:center;margin-top:20px;border-top:1px dashed rgba(255,255,255,.1);padding-top:12px}
+.reset-btn{background:transparent;border:1px solid #ff003c;color:#ff003c;font-size:.7rem;padding:5px 12px;border-radius:4px;cursor:pointer;font-family:'Orbitron',sans-serif}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--cyan-glow);color:#050811;padding:10px 20px;border-radius:6px;font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:bold;opacity:0;transition:.3s;z-index:99999;pointer-events:none;text-align:center;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.rolling{opacity:.5}
+.modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,8,17,.95);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;z-index:9999;opacity:0;pointer-events:none;transition:.3s;padding:20px}
+.modal-overlay.active{opacity:1;pointer-events:auto}
+.modal-box{width:100%;max-width:350px;transform:translateY(-30px);transition:.3s;background:var(--card-bg);border:1px solid var(--cyan-glow);padding:20px;border-radius:12px;box-shadow:0 0 30px rgba(0,240,255,.2);position:relative}
+.modal-overlay.active .modal-box{transform:translateY(0)}
+@keyframes levelUpPop{0%{transform:scale(.6) translateY(20px);opacity:0}50%{transform:scale(1.08)}100%{transform:scale(1) translateY(0);opacity:1}}
+.level-up-box{animation:levelUpPop .4s cubic-bezier(.175,.885,.32,1.275) forwards;border:2px solid var(--gold-glow)!important;box-shadow:0 0 40px rgba(255,204,0,.5)!important;text-align:center}
+.cyber-input{width:100%;background:rgba(0,240,255,.05);border:1px solid var(--cyan-glow);color:var(--cyan-glow);padding:12px;font-family:'Orbitron',sans-serif;font-size:.9rem;border-radius:6px;outline:none;margin-bottom:15px;text-transform:uppercase;text-align:center}
+#buff-timer{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--green-glow);margin-bottom:5px;font-weight:bold;text-shadow:0 0 5px var(--green-glow)}
+.menu-row{display:flex;gap:10px;margin-top:18px;margin-bottom:5px}
+.menu-btn{flex:1;background:rgba(161,0,255,.08);border:1px solid var(--purple-glow);color:var(--text-color);padding:12px 8px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'Rajdhani',sans-serif;font-weight:700;transition:.2s;box-shadow:0 0 10px rgba(161,0,255,.25)}
+.menu-btn:hover{background:rgba(161,0,255,.2);transform:translateY(-2px)}
+.menu-btn:active{transform:scale(.96)}
+.menu-icon{font-size:1.5rem}
+.menu-label{font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.5px;color:var(--purple-glow);text-shadow:0 0 6px rgba(161,0,255,.6);display:flex;align-items:center;gap:4px}
+.badge-count{background:var(--pink-glow);color:#050811;font-family:'Orbitron',sans-serif;font-size:.6rem;padding:1px 6px;border-radius:8px;font-weight:bold}
+  .friend-btn-corner{position:absolute;top:15px;right:78px;padding:4px 10px;font-size:.65rem;font-family:'Orbitron',sans-serif;font-weight:700;color:#fff;cursor:pointer;z-index:10;border-radius:10px;background:rgba(255,255,255,.08);backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.25);box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3);transition:.25s;display:flex;align-items:center;gap:4px}
+.friend-btn-corner:hover{background:rgba(0,240,255,.15);border-color:rgba(0,240,255,.5);transform:translateY(-1px)}
+.friend-btn-corner:active{transform:scale(.95)}
+.chat-btn-corner{position:absolute;top:15px;right:168px;padding:4px 10px;font-size:.65rem;font-family:'Orbitron',sans-serif;font-weight:700;color:#fff;cursor:pointer;z-index:10;border-radius:10px;background:rgba(255,255,255,.08);backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.25);box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3);transition:.25s;display:flex;align-items:center;gap:4px}
+.chat-btn-corner:hover{background:rgba(161,0,255,.2);border-color:rgba(161,0,255,.6);transform:translateY(-1px)}
+.chat-btn-corner:active{transform:scale(.95)}
+.search-bar-liquid{width:100%;background:rgba(255,255,255,.06);backdrop-filter:blur(15px) saturate(180%);border:1px solid rgba(255,255,255,.2);color:#fff;padding:12px 16px;font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:600;border-radius:12px;outline:none;margin-bottom:15px;box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);transition:.3s;letter-spacing:.3px}
+.search-bar-liquid::placeholder{color:rgba(255,255,255,.4);font-weight:500}
+.search-bar-liquid:focus{background:rgba(0,240,255,.08);border-color:rgba(0,240,255,.6);box-shadow:0 4px 22px rgba(0,240,255,.35),inset 0 1px 0 rgba(255,255,255,.35),0 0 0 3px rgba(0,240,255,.12)}
+.friend-list-box{max-height:280px;overflow-y:auto;padding-right:4px;margin-bottom:10px}
+.friend-item{background:rgba(255,255,255,.04);backdrop-filter:blur(12px) saturate(160%);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;box-shadow:0 2px 10px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.15);transition:.2s}
+.friend-item:hover{border-color:rgba(0,240,255,.4);background:rgba(0,240,255,.06)}
+.friend-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--cyan-glow),var(--purple-glow));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:bold;font-size:.8rem;color:#050811;margin-right:10px;box-shadow:0 0 10px rgba(0,240,255,.4);flex-shrink:0}
+.friend-add-btn{background:rgba(0,255,102,.1);border:1px solid rgba(0,255,102,.5);color:var(--green-glow);padding:5px 10px;font-size:.65rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;backdrop-filter:blur(8px)}
+.friend-add-btn:hover{background:var(--green-glow);color:#050811}
+.friend-add-btn:active{transform:scale(.94)}
+.friend-add-btn.added{background:rgba(136,160,192,.1);border-color:rgba(136,160,192,.4);color:var(--gray-glow);cursor:default}
+.friend-add-btn.pending{background:rgba(255,204,0,.1);border-color:rgba(255,204,0,.5);color:var(--gold-glow);cursor:default}
+.name-edit-row{display:flex;gap:8px;margin-bottom:15px;align-items:stretch}
+.name-edit-row input{margin-bottom:0!important;flex:1;text-transform:none!important}
+.name-save-btn{background:rgba(0,255,102,.12);border:1px solid rgba(0,255,102,.55);color:var(--green-glow);padding:0 14px;font-family:'Orbitron',sans-serif;font-size:.75rem;font-weight:700;border-radius:12px;cursor:pointer;transition:.2s;backdrop-filter:blur(10px);white-space:nowrap}
+.name-save-btn:hover{background:var(--green-glow);color:#050811}
+.name-save-btn:active{transform:scale(.95)}
+.my-name-label{font-size:.68rem;color:var(--gray-glow);margin-bottom:6px;font-family:'Orbitron',sans-serif;letter-spacing:.5px;text-align:center}
+  .req-btn-group{display:flex;gap:5px}
+.req-accept{background:rgba(0,255,102,.15);border:1px solid rgba(0,255,102,.6);color:var(--green-glow);padding:5px 8px;font-size:.6rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s}
+.req-accept:hover{background:var(--green-glow);color:#050811}
+.req-accept:active{transform:scale(.94)}
+.req-reject{background:rgba(255,0,60,.12);border:1px solid rgba(255,0,60,.55);color:var(--mystic-glow);padding:5px 8px;font-size:.6rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s}
+.req-reject:hover{background:var(--mystic-glow);color:#050811}
+.req-reject:active{transform:scale(.94)}
+.friend-action-row{display:flex;gap:5px;align-items:center}
+.gift-send-btn{background:rgba(255,0,127,.12);border:1px solid rgba(255,0,127,.55);color:var(--pink-glow);padding:5px 8px;font-size:.65rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;backdrop-filter:blur(8px)}
+.gift-send-btn:hover{background:var(--pink-glow);color:#050811}
+.gift-send-btn:active{transform:scale(.94)}
+.gift-target-name{font-size:.75rem;color:var(--gold-glow);text-align:center;margin-bottom:12px;font-family:'Orbitron',sans-serif;text-shadow:0 0 6px rgba(255,204,0,.5)}
+.gift-item-row{background:rgba(255,255,255,.02);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.friend-reject-btn{background:rgba(255,0,60,.12);border:1px solid rgba(255,0,60,.55);color:var(--mystic-glow);padding:5px 8px;font-size:.65rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;backdrop-filter:blur(8px)}
+.friend-reject-btn:hover{background:var(--mystic-glow);color:#050811}
+.friend-reject-btn:active{transform:scale(.94)}
+.chat-open-btn{background:rgba(161,0,255,.12);border:1px solid rgba(161,0,255,.55);color:var(--purple-glow);padding:5px 10px;font-size:.65rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;backdrop-filter:blur(8px)}
+.chat-open-btn:hover{background:var(--purple-glow);color:#fff}
+.chat-open-btn:active{transform:scale(.94)}
+  .chat-messages{max-height:320px;min-height:200px;overflow-y:auto;padding:10px;background:rgba(5,8,17,.7);border:1px solid rgba(255,255,255,.08);border-radius:10px;margin-bottom:12px;display:flex;flex-direction:column;gap:6px}
+.chat-bubble{padding:8px 12px;border-radius:12px;max-width:78%;word-wrap:break-word;overflow-wrap:break-word;font-size:.85rem;line-height:1.35;font-weight:500}
+.chat-bubble.me{align-self:flex-end;background:linear-gradient(135deg,var(--cyan-glow),var(--blue-glow));color:#050811;font-weight:600;border-bottom-right-radius:3px}
+.chat-bubble.them{align-self:flex-start;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#e0f7fc;border-bottom-left-radius:3px}
+.chat-bubble-time{font-size:.6rem;opacity:.65;margin-top:3px;font-family:'Orbitron',sans-serif}
+.chat-input-row{display:flex;gap:8px;margin-bottom:10px}
+.chat-input-row input{flex:1;margin-bottom:0!important;text-transform:none!important;font-family:'Rajdhani',sans-serif!important;font-size:.9rem!important;padding:10px 14px!important}
+.chat-send-btn{background:rgba(0,240,255,.15);border:1px solid rgba(0,240,255,.6);color:var(--cyan-glow);padding:0 16px;font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:700;border-radius:10px;cursor:pointer;transition:.2s;white-space:nowrap}
+.chat-send-btn:hover{background:var(--cyan-glow);color:#050811}
+.chat-send-btn:active{transform:scale(.94)}
+.chat-name-label{font-size:.75rem;color:var(--cyan-glow);text-align:center;margin-bottom:12px;font-family:'Orbitron',sans-serif;text-shadow:0 0 6px rgba(0,240,255,.5)}
+.chat-back-btn{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.08);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 10px;font-family:'Orbitron',sans-serif;font-size:.65rem;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;z-index:10}
+.chat-back-btn:hover{background:rgba(255,0,127,.2);border-color:rgba(255,0,127,.6)}
+.chat-back-btn:active{transform:scale(.94)}
+.clear-chat-btn{position:absolute;top:12px;right:12px;background:rgba(255,0,60,.12);backdrop-filter:blur(15px);border:1px solid rgba(255,0,60,.45);color:var(--mystic-glow);padding:6px 10px;font-family:'Orbitron',sans-serif;font-size:.65rem;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;z-index:10}
+.clear-chat-btn:hover{background:var(--mystic-glow);color:#050811}
+.clear-chat-btn:active{transform:scale(.94)}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.status-dot.online{background:var(--green-glow);box-shadow:0 0 6px var(--green-glow)}
+.status-dot.offline{background:#556b88;box-shadow:0 0 4px rgba(85,107,136,.4)}
+.chat-status-text{font-size:.7rem;font-weight:600}
+.chat-status-text.online{color:var(--green-glow);text-shadow:0 0 5px rgba(0,255,102,.5)}
+.chat-status-text.offline{color:#88a0c0}
+.guild-section{background:rgba(255,255,255,.02);border:1px dashed rgba(0,240,255,.3);border-radius:8px;padding:15px;margin-top:8px}
+.guild-search-row{display:flex;flex-direction:column;gap:8px}
+.guild-result{margin-top:12px;padding:12px;background:rgba(0,240,255,.06);border:1px solid rgba(0,240,255,.4);border-radius:8px;display:none}
+.guild-result.show{display:block}
+.guild-result-name{font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--cyan-glow);text-shadow:0 0 8px rgba(0,240,255,.5);margin-bottom:4px;font-weight:700}
+.guild-result-info{font-size:.75rem;color:#88a0c0;margin-bottom:10px}
+.guild-result-empty{padding:12px;text-align:center;color:#556b88;font-size:.8rem;font-style:italic;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);border-radius:8px;margin-top:12px;display:none}
+.guild-result-empty.show{display:block}
+.guild-form-label{font-size:.75rem;color:var(--cyan-glow);margin-bottom:5px;font-family:'Orbitron',sans-serif;font-weight:700;text-align:left;display:block}
+.guild-select{width:100%;background:rgba(0,240,255,.05);border:1px solid var(--cyan-glow);color:var(--cyan-glow);padding:12px;font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:600;border-radius:6px;outline:none;margin-bottom:15px;cursor:pointer}
+.guild-select option{background:#0d1424;color:#e0f7fc}
+.guild-chat-btn{background:linear-gradient(135deg,rgba(161,0,255,.15),rgba(0,240,255,.15));border:1px solid var(--purple-glow);color:#fff;width:100%;padding:12px;font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;margin-top:8px;display:none;box-shadow:0 0 15px rgba(161,0,255,.3)}
+.guild-chat-btn.show{display:block}
+.guild-chat-btn:hover{background:linear-gradient(135deg,rgba(161,0,255,.35),rgba(0,240,255,.35));transform:translateY(-1px)}
+.guild-chat-btn:active{transform:scale(.96)}
+.leave-guild-btn{background:rgba(255,0,60,.1);border:1px solid rgba(255,0,60,.55);color:var(--mystic-glow);width:100%;padding:12px;font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;margin-top:8px;display:none;box-shadow:0 0 10px rgba(255,0,60,.2)}
+.leave-guild-btn.show{display:block}
+.leave-guild-btn:hover{background:var(--mystic-glow);color:#050811}
+.leave-guild-btn:active{transform:scale(.96)}
+.event-section{background:linear-gradient(135deg,rgba(255,0,60,.08),rgba(255,204,0,.05));border:1px dashed rgba(255,0,60,.5);border-radius:8px;padding:15px;margin-top:8px;cursor:pointer;transition:.25s;display:flex;justify-content:space-between;align-items:center;gap:10px;box-shadow:0 0 15px rgba(255,0,60,.15)}
+.event-section:hover{background:linear-gradient(135deg,rgba(255,0,60,.18),rgba(255,204,0,.1));border-color:var(--mystic-glow);transform:translateY(-2px)}
+.event-section:active{transform:scale(.98)}
+.event-section.closed{background:rgba(255,255,255,.03);border-color:#3a4454;box-shadow:none}
+.event-section.closed:hover{background:rgba(255,255,255,.05);border-color:#556b88}
+.event-section.closed .event-section-title{color:#556b88;text-shadow:none}
+.event-section.closed .event-open-text{color:#556b88;text-shadow:none}
+.event-section-title{font-family:'Orbitron',sans-serif;font-size:.95rem;color:var(--mystic-glow);font-weight:900;text-shadow:0 0 10px rgba(255,0,60,.7);letter-spacing:.5px}
+.event-section-info{font-size:.68rem;color:#88a0c0;margin-top:5px;font-family:'Rajdhani',sans-serif;font-weight:600}
+.event-open-text{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--gold-glow);text-align:right;font-weight:900;line-height:1.3;text-shadow:0 0 8px rgba(255,204,0,.6);white-space:nowrap}
+.event-item-row{background:linear-gradient(135deg,rgba(255,0,60,.18),rgba(161,0,255,.1));border:1px solid var(--mystic-glow);border-radius:10px;padding:12px;margin-bottom:10px;box-shadow:0 0 15px rgba(255,0,60,.25),inset 0 1px 0 rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.event-item-name{font-family:'Orbitron',sans-serif;font-size:.95rem;color:var(--mystic-glow);text-shadow:0 0 10px var(--mystic-glow);font-weight:900;margin-bottom:4px;letter-spacing:.3px}
+.event-item-price{font-size:.78rem;color:var(--gold-glow);font-weight:700;font-family:'Orbitron',sans-serif;text-shadow:0 0 6px rgba(255,204,0,.5)}
+.event-buy-btn{background:rgba(255,0,60,.2);border:1px solid var(--mystic-glow);color:var(--mystic-glow);padding:6px 14px;font-family:'Orbitron',sans-serif;font-size:.65rem;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;white-space:nowrap;backdrop-filter:blur(8px)}
+.event-buy-btn:hover{background:var(--mystic-glow);color:#fff}
+.event-buy-btn:active{transform:scale(.94)}
+.tag-section{background:rgba(161,0,255,.05);border:1px dashed rgba(161,0,255,.4);border-radius:8px;padding:15px;margin-top:8px}
+.tag-active-display{margin-top:10px;font-size:.72rem;color:#88a0c0;text-align:center;font-family:'Orbitron',sans-serif;font-weight:700}
+.tag-active-display span{font-weight:900}
+.tag-item-row{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag-pick-btn{background:rgba(161,0,255,.15);border:1px solid var(--purple-glow);color:#fff;padding:5px 10px;font-size:.65rem;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tag-pick-btn:hover{background:var(--purple-glow)}
+.tag-pick-btn:active{transform:scale(.94)}
+.tag-pick-btn.active{background:var(--green-glow);border-color:var(--green-glow);color:#050811}
+.chat-tag-badge{display:inline-block;font-family:'Orbitron',sans-serif;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:6px;margin-bottom:4px;background:rgba(255,255,255,.06);border:1px solid #556b88;color:#88a0c0;letter-spacing:.3px;text-shadow:none}
+.chat-tag-badge.rarity-mystic{border-color:var(--mystic-glow);color:var(--mystic-glow);background:rgba(255,0,60,.12);text-shadow:none}
+.chat-tag-badge.rarity-legendary{border-color:var(--gold-glow);color:var(--gold-glow);background:rgba(255,204,0,.1);text-shadow:none}
+.chat-tag-badge.rarity-epic{border-color:var(--purple-glow);color:var(--purple-glow);background:rgba(161,0,255,.1);text-shadow:none}
+.chat-tag-badge.rarity-rare{border-color:var(--blue-glow);color:var(--blue-glow);background:rgba(0,112,255,.1);text-shadow:none}
+.chat-tag-badge.rarity-uncommon{border-color:var(--green-glow);color:var(--green-glow);background:rgba(0,255,102,.08);text-shadow:none}
+.chat-tag-badge.rarity-common{border-color:var(--gray-glow);color:var(--gray-glow);background:rgba(136,160,192,.08);text-shadow:none}
+.chat-tag-badge.event-tag{border:2px solid transparent !important;background:linear-gradient(rgba(5,8,17,.92),rgba(5,8,17,.92)) padding-box,linear-gradient(90deg,#ff0000,#ff9900,#ffee00,#00ff66,#00f0ff,#0070ff,#a100ff,#ff007f,#ff0000) border-box !important;text-shadow:none !important;box-shadow:none !important;color:var(--mystic-glow);}
+</style>
+</head>
+<body>
+<div class="cyber-container">
+<button class="cyber-btn redeem-btn-corner" onclick="openRedeem()">REDEEM</button>
+<button class="chat-btn-corner" onclick="openChatListModal()">💬 CHAT</button>
+<button class="friend-btn-corner" onclick="openFriendModal()">👥 FRIENDS</button>
+<button class="cyber-btn shop-btn-corner" onclick="openShop()">SHOP</button>
+<div class="header">
+<h1>CYBER GACHA CORE</h1>
+<p>TERMINAL MISI, INVENTORY & BOX v10.0 FINAL</p>
+</div>
+<div class="user-stats">
+<div class="level-header">
+<div class="level-badge" id="levelBadge">BEGINNER</div>
+<div class="exp-text" id="expText">0 / 125 EXP</div>
+</div>
+<div class="exp-track"><div class="exp-fill" id="expFill"></div></div>
+<div style="font-size:.65rem;color:#88a0c0;margin-top:4px;text-align:center;">(Jual Item untuk mendapatkan +5 EXP)</div>
+</div>
+<div class="balance-card">
+<div class="balance-title">SALDO KREDIT SIBER</div>
+<div class="balance-value" id="balanceDisplay">Rp 0</div>
+</div>
+<div class="section-title"><span>❖</span> MYSTERY BOX</div>
+<div class="mystery-box-container" id="mysteryBoxCard">
+<div id="mysteryBoxTitle" style="font-family:'Orbitron',sans-serif;color:var(--gold-glow);font-size:1.1rem;font-weight:bold;margin-bottom:5px;">KOTAK MISTERI SIBER</div>
+<div id="mysteryBoxStatus" style="font-size:.8rem;color:#88a0c0;margin-bottom:15px;">Status: Siap Dibuka!</div>
+<button class="cyber-btn gold-btn" id="btn-mystery-box" onclick="openMysteryBox()">BUKA BOX</button>
+</div>
+<div class="section-title"><span>❖</span> VAULT GACHA</div>
+<div class="gacha-stage">
+<div id="buff-timer"></div>
+<div class="gacha-box" id="gachaDisplayBox">
+<div style="color:#556b88;font-size:.8rem;">[ SPINS UNTUK MENDAPATKAN ITEM ]</div>
+</div>
+<button class="cyber-btn gold-btn" id="btn-gacha">GACHA 1X (Rp 1.000)</button>
+</div>
+<div class="menu-row">
+<button class="menu-btn" onclick="openInventoryModal()">
+<span class="menu-icon">📦</span>
+<span class="menu-label">INVENTORY <span class="badge-count" id="invBadge">0</span></span>
+</button>
+<button class="menu-btn" onclick="openMissionModal()">
+<span class="menu-icon">🎯</span>
+<span class="menu-label">MISI HARIAN</span>
+</button>
+</div>
+<div class="section-title"><span>❖</span> PUSAT UNDUHAN APK</div>
+<div class="mission-list">
+<div class="mission-item" style="border-left-color:var(--pink-glow);">
+<div class="mission-info">
+<h3 style="color:var(--pink-glow);">AKSES LINK PREMIUM</h3>
+<p>Buka Menu Download (Rp 3.500/link • Sekali Beli)</p>
+</div>
+<button class="cyber-btn pink-btn" onclick="openApkModal()">BUKA MENU</button>
+</div>
+</div>
+<div class="section-title"><span>❖</span> GUILD SIBER</div>
+<div class="guild-section">
+<div class="guild-search-row">
+<input type="text" id="guildSearchInput" class="search-bar-liquid" placeholder="🔍 Cari nama guild..." maxlength="30" style="margin-bottom:0;">
+<button class="cyber-btn pink-btn" onclick="window.searchGuild()" style="width:100%;">🔍 CARI GUILD</button>
+</div>
+<div class="guild-result" id="guildResult"></div>
+<div class="guild-result-empty" id="guildResultEmpty">[ GUILD TIDAK DITEMUKAN ]</div>
+<button class="cyber-btn gold-btn" id="btn-create-guild" onclick="window.openCreateGuild()" style="margin-top:15px;">🏰 BUAT GUILD (Rp 10.000)</button>
+<button class="guild-chat-btn" id="btn-guild-chat" onclick="window.openGuildChat()">💬 CHAT GUILD</button>
+<button class="leave-guild-btn" id="btn-leave-guild" onclick="window.leaveGuild()">🚪 KELUAR GUILD</button>
+</div>
+<div class="section-title"><span>❖</span> EVENT TERBATAS</div>
+<div class="event-section" id="eventSection" onclick="openEventModal()">
+<div>
+<div class="event-section-title">🔥 EVENT MYSTIC</div>
+<div class="event-section-info" id="eventStatusInfo">Item EXCLUSIVE event-only • Stok terbatas</div>
+</div>
+<div class="event-open-text" id="eventOpenText">DIBUKA<br>20.30 → 21.30</div>
+</div>
+<div class="section-title"><span>❖</span> UBAH TAG</div>
+<div class="tag-section">
+<button class="cyber-btn gold-btn" onclick="openTagModal()">🏷️ UBAH TAG PEMAIN</button>
+<div class="tag-active-display" id="tagActiveDisplay">TAG: Belum ada</div>
+</div>
+<div class="reset-area">
+<button class="reset-btn" id="btn-reset">[!] RESET DATA TERMINAL</button>
+</div>
+</div>
+<div class="modal-overlay" id="redeemModal">
+<div class="modal-box">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>❖</span> REDEEM CODE</div>
+<p style="font-size:.75rem;color:#88a0c0;text-align:center;margin-bottom:15px;">Masukkan kode rahasia untuk diskon (CD 24 Jam)</p>
+<input type="text" id="redeemInput" class="cyber-input" placeholder="KETIK KODE">
+<div style="display:flex;gap:10px;">
+<button class="cyber-btn pink-btn" onclick="processRedeem()" style="flex:1;">TUKAR</button>
+<button class="cyber-btn" onclick="closeRedeem()" style="flex:1;">BATAL</button>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="shopModal">
+<div class="modal-box">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>❖</span> TOKO SIBER (+12%)</div>
+<p style="font-size:.75rem;color:#88a0c0;text-align:center;margin-bottom:15px;">Beli item langka langsung dengan kredit</p>
+<div class="shop-box" id="shopContainer"></div>
+<button class="cyber-btn pink-btn" onclick="closeShop()" style="width:100%;">TUTUP</button>
+</div>
+</div>
+<div class="modal-overlay" id="inventoryModal">
+<div class="modal-box" style="max-height:85vh;overflow-y:auto;">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>❖</span> INVENTORY ITEM</div>
+<p style="font-size:.75rem;color:#88a0c0;text-align:center;margin-bottom:15px;">Jual item untuk +5 EXP per item</p>
+<div class="inventory-box" id="inventoryContainer" style="max-height:350px;"></div>
+<button class="cyber-btn sell-all-btn" id="btn-sell-all" onclick="window.sellAllItems()">💰 JUAL SEMUA ITEM</button>
+<button class="cyber-btn pink-btn" onclick="closeInventoryModal()" style="width:100%;margin-top:8px;">TUTUP</button>
+</div>
+</div>
+<div class="modal-overlay" id="missionModal">
+<div class="modal-box" style="max-height:85vh;overflow-y:auto;">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>❖</span> MISI HARIAN</div>
+<p style="font-size:.75rem;color:#88a0c0;text-align:center;margin-bottom:15px;">Selesaikan misi untuk bonus kredit</p>
+<div class="mission-list">
+<div class="mission-item">
+<div class="mission-info"><h3>01 // LOGIN HARIAN</h3><p>Masuk ke terminal harian</p><div class="mission-reward">+ Rp 2.000</div></div>
+<button class="cyber-btn" id="btn-misi-1">KLAIM</button>
+</div>
+<div class="mission-item">
+<div class="mission-info"><h3>02 // GACHA 1 KALI</h3><p>Lakukan 1x gacha (<span id="prog-1">0</span>/1)</p><div class="mission-reward">+ Rp 3.000</div></div>
+<button class="cyber-btn pink-btn" id="btn-misi-2">KLAIM</button>
+</div>
+<div class="mission-item">
+<div class="mission-info"><h3>03 // GACHA 3 KALI</h3><p>Lakukan 3x gacha (<span id="prog-3">0</span>/3)</p><div class="mission-reward">+ Rp 5.000</div></div>
+<button class="cyber-btn pink-btn" id="btn-misi-3">KLAIM</button>
+</div>
+</div>
+<button class="cyber-btn pink-btn" onclick="closeMissionModal()" style="width:100%;margin-top:12px;">TUTUP</button>
+</div>
+</div>
+<div class="modal-overlay" id="friendModal">
+<div class="modal-box" style="max-height:90vh;overflow-y:auto;border-color:rgba(0,240,255,.5);">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>❖</span> TEMAN SIBER</div>
+<div class="my-name-label">✏️ NAMA KAMU SEKARANG: <span id="myCurrentName" style="color:var(--cyan-glow);font-weight:bold;">-</span></div>
+<div class="name-edit-row">
+<input type="text" id="myUsernameInput" class="search-bar-liquid" placeholder="Ketik nama baru..." maxlength="20">
+<button class="name-save-btn" onclick="window.saveUsername()">💾 SIMPAN</button>
+</div>
+<input type="text" id="friendSearchInput" class="search-bar-liquid" placeholder="🔍 Cari nama teman..." oninput="window.filterFriendList(this.value)">
+<div style="font-size:.72rem;color:var(--gold-glow);margin-bottom:8px;font-family:'Orbitron',sans-serif;display:flex;align-items:center;gap:6px;">
+📩 PERMINTAAN TEMAN <span id="reqCount" style="color:#88a0c0;">(0)</span>
+</div>
+<div class="friend-list-box" id="reqContainer" style="max-height:150px;margin-bottom:12px;"><div class="empty-inv">[ MEMUAT... ]</div></div>
+<div style="font-size:.72rem;color:var(--green-glow);margin-bottom:8px;font-family:'Orbitron',sans-serif;display:flex;align-items:center;gap:6px;">
+👥 TEMAN SAYA <span id="myFriendCount" style="color:#88a0c0;">(0)</span>
+</div>
+<div class="friend-list-box" id="myFriendContainer" style="max-height:150px;margin-bottom:12px;"><div class="empty-inv">[ MEMUAT... ]</div></div>
+<div style="font-size:.72rem;color:var(--cyan-glow);margin-bottom:8px;font-family:'Orbitron',sans-serif;display:flex;align-items:center;justify-content:space-between;">
+<span>⚡ REKOMENDASI PENGGUNA <span id="friendCount" style="color:#88a0c0;">(0)</span></span>
+<button class="friend-reject-btn" style="font-size:.55rem;padding:3px 8px;" onclick="window.resetRecommendations()">🔄 RESET</button>
+</div>
+<div class="friend-list-box" id="friendListContainer" style="max-height:200px;"><div class="empty-inv">[ MEMUAT... ]</div></div>
+<button class="cyber-btn pink-btn" onclick="closeFriendModal()" style="width:100%;margin-top:12px;">TUTUP</button>
+</div>
+</div>
+<div class="modal-overlay" id="giftModal">
+<div class="modal-box" style="max-height:85vh;overflow-y:auto;border-color:rgba(255,0,127,.5);">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>🎁</span> KIRIM HADIAH</div>
+<p class="gift-target-name">Ke: <span id="giftTargetLabel">-</span></p>
+<p style="font-size:.72rem;color:#88a0c0;text-align:center;margin-bottom:12px;">Pilih item dari inventory untuk dikirim</p>
+<div class="inventory-box" id="giftPickerContainer" style="max-height:400px;"><div class="empty-inv">[ INVENTORY KOSONG ]</div></div>
+<button class="cyber-btn pink-btn" onclick="closeGiftModal()" style="width:100%;margin-top:8px;">BATAL</button>
+</div>
+</div>
+<div class="modal-overlay" id="chatListModal">
+<div class="modal-box" style="max-height:88vh;overflow-y:auto;border-color:rgba(161,0,255,.5);">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>💬</span> CHAT SIBER</div>
+<p style="font-size:.75rem;color:#88a0c0;text-align:center;margin-bottom:15px;">Pilih teman untuk mulai chat</p>
+<input type="text" id="chatListSearch" class="search-bar-liquid" placeholder="🔍 Cari teman..." oninput="window.filterChatList(this.value)">
+<div class="friend-list-box" id="chatListContainer" style="max-height:400px;"><div class="empty-inv">[ MEMUAT... ]</div></div>
+<button class="cyber-btn pink-btn" onclick="closeChatListModal()" style="width:100%;margin-top:8px;">TUTUP</button>
+</div>
+</div>
+<div class="modal-overlay" id="chatRoomModal">
+<div class="modal-box" style="max-height:90vh;overflow-y:auto;border-color:rgba(161,0,255,.6);">
+<button class="chat-back-btn" onclick="window.backToChatList()">← KEMBALI</button>
+<button class="clear-chat-btn" onclick="window.clearChatHistory()">🗑️ BERSIHKAN</button>
+<div class="section-title" style="margin-top:0;text-align:center;"><span>💬</span> CHAT</div>
+<p class="chat-name-label"><span class="status-dot" id="chatWithStatusDot"></span>Dengan: <span id="chatWithName">-</span> <span class="chat-status-text" id="chatWithStatusText"></span></p>
+<div class="chat-messages" id="chatMessages"><div class="empty-inv">[ MEMUAT PESAN... ]</div></div>
+<div class="chat-input-row">
+<input type="text" id="chatInput" class="cyber-input" placeholder="Ketik pesan..." maxlength="500">
+<button class="chat-send-btn" onclick="window.sendChat()">KIRIM</button>
+</div>
+<button class="cyber-btn pink-btn" onclick="closeChatRoom()" style="width:100%;">TUTUP CHAT</button>
+</div>
+</div>
+<div class="modal-overlay" id="apkModal">
+<div class="modal-box" style="max-height:85vh;overflow-y:auto;padding-right:15px;">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>❖</span> PUSAT UNDUHAN APK</div>
+<p style="font-size:.75rem;color:var(--gold-glow);text-align:center;margin-bottom:15px;">⚠️ Sekali Bayar Rp 3.500 = Akses Selamanya</p>
+<div style="margin-bottom:15px;">
+<div style="color:var(--pink-glow);font-size:.8rem;font-weight:bold;margin-bottom:8px;">❖ GRUP 1 // LIVE STREAM</div>
+<button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://donationalerts-studio.id.uptodown.com/android" onclick="buyApkLink('https://donationalerts-studio.id.uptodown.com/android','Da studio')"><span>📲 Da studio</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
+</div>
+<div style="margin-bottom:15px;">
+<div style="color:var(--pink-glow);font-size:.8rem;font-weight:bold;margin-bottom:8px;">❖ GRUP 2 // MUSIK APK</div>
+<button class="cyber-btn apk-link-btn" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-color:rgba(0,240,255,.4);" data-apk-url="https://github.com/kushagrasinghx/BitChord" onclick="buyApkLink('https://github.com/kushagrasinghx/BitChord','Bitchord')"><span>🎵 Bitchord</span><span class="apk-price" style="color:var(--gold-glow);font-size:.7rem;">Rp 3.500</span></button>
+</div>
+<button class="cyber-btn pink-btn" onclick="closeApkModal()" style="width:100%;">TUTUP KONEKSI</button>
+</div>
+</div>
+<div class="modal-overlay" id="levelUpModal">
+<div class="modal-box level-up-box">
+<div style="font-family:'Orbitron',sans-serif;color:var(--gold-glow);font-size:1.3rem;font-weight:900;text-shadow:0 0 15px var(--gold-glow);margin-bottom:8px;">⚡ LEVEL UP! ⚡</div>
+<p style="font-size:.85rem;color:#e0f7fc;margin-bottom:15px;">Selamat! Anda mencapai rank:</p>
+<div id="levelUpRankBadge" class="level-badge" style="display:inline-block;font-size:1.1rem;padding:6px 18px;margin-bottom:20px;">RANK</div>
+<div><button class="cyber-btn gold-btn" onclick="closeLevelUpModal()">LANTASKAN!</button></div>
+</div>
+</div>
+<div class="modal-overlay" id="guildCreateModal">
+<div class="modal-box" style="max-height:85vh;overflow-y:auto;border-color:rgba(255,204,0,.6);">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>🏰</span> BUAT GUILD</div>
+<p style="font-size:.72rem;color:#88a0c0;text-align:center;margin-bottom:15px;">Isi form di bawah untuk membuat guild baru</p>
+<label class="guild-form-label">NAMA GUILD</label>
+<input type="text" id="guildNameInput" class="cyber-input" placeholder="Ketik nama guild..." maxlength="30" style="text-transform:none;">
+<label class="guild-form-label">MINIMUM JUMLAH ANGGOTA</label>
+<input type="number" id="guildMinMembersInput" class="cyber-input" placeholder="Contoh: 5" min="1" max="999" value="5">
+<label class="guild-form-label">MAKSIMUM JUMLAH ANGGOTA</label>
+<input type="number" id="guildMaxMembersInput" class="cyber-input" placeholder="Contoh: 50" min="1" max="999" value="50">
+<label class="guild-form-label">YANG BOLEH JOIN</label>
+<select id="guildJoinPolicy" class="guild-select">
+<option value="friends">Hanya Teman</option>
+<option value="everyone">Semua Orang</option>
+</select>
+<div style="display:flex;gap:10px;">
+<button class="cyber-btn gold-btn" onclick="window.submitCreateGuild()" style="flex:1;">🏰 BUAT GUILD</button>
+<button class="cyber-btn" onclick="window.closeCreateGuild()" style="flex:1;">BATAL</button>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="guildChatModal">
+<div class="modal-box" style="max-height:90vh;overflow-y:auto;border-color:rgba(161,0,255,.6);">
+<button class="chat-back-btn" onclick="window.closeGuildChat()">← TUTUP</button>
+<button class="clear-chat-btn" onclick="window.clearGuildChatHistory()">🗑️ BERSIHKAN</button>
+<div class="section-title" style="margin-top:0;text-align:center;"><span>💬</span> CHAT GUILD</div>
+<p class="chat-name-label">🏰 <span id="guildChatName">-</span> • <span id="guildChatMemberCount">0</span> anggota</p>
+<div class="chat-messages" id="guildChatMessages"><div class="empty-inv">[ MEMUAT PESAN... ]</div></div>
+<div class="chat-input-row">
+<input type="text" id="guildChatInput" class="cyber-input" placeholder="Ketik pesan ke guild..." maxlength="500">
+<button class="chat-send-btn" onclick="window.sendGuildChat()">KIRIM</button>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="eventModal">
+<div class="modal-box" style="max-height:88vh;overflow-y:auto;border-color:rgba(255,0,60,.7);box-shadow:0 0 40px rgba(255,0,60,.3);">
+<div class="section-title" style="margin-top:0;text-align:center;color:var(--mystic-glow);text-shadow:0 0 10px rgba(255,0,60,.7);"><span>🔥</span> EVENT MYSTIC TERBATAS</div>
+<p style="font-size:.68rem;color:var(--gold-glow);text-align:center;margin-bottom:12px;font-family:'Orbitron',sans-serif;font-weight:700;text-shadow:0 0 6px rgba(255,204,0,.5);">⏰ BUKA 20.30 - 21.30 (1 JAM) • EXCLUSIVE EVENT ONLY</p>
+<input type="text" id="eventSearchInput" class="search-bar-liquid" placeholder="🔍 Cari item event..." oninput="window.filterEventList(this.value)">
+<div class="friend-list-box" id="eventItemContainer" style="max-height:420px;"><div class="empty-inv">[ MEMUAT ITEM... ]</div></div>
+<button class="cyber-btn pink-btn" onclick="closeEventModal()" style="width:100%;margin-top:8px;">TUTUP</button>
+</div>
+</div>
+<div class="modal-overlay" id="tagModal">
+<div class="modal-box" style="max-height:85vh;overflow-y:auto;border-color:rgba(161,0,255,.6);">
+<div class="section-title" style="margin-top:0;text-align:center;"><span>🏷️</span> UBAH TAG</div>
+<p style="font-size:.72rem;color:#88a0c0;text-align:center;margin-bottom:12px;">Pilih 1 item untuk dijadikan tag pemain</p>
+<input type="text" id="tagSearchInput" class="search-bar-liquid" placeholder="🔍 Cari item..." oninput="window.filterTagList(this.value)">
+<div class="friend-list-box" id="tagItemContainer" style="max-height:400px;"><div class="empty-inv">[ MEMUAT... ]</div></div>
+<button class="cyber-btn pink-btn" onclick="closeTagModal()" style="width:100%;margin-top:8px;">TUTUP</button>
+</div>
+</div>
+<div class="toast" id="toast">NOTIFICATION</div>
+<script>
+/** @type {Array<{id:string,name:string,rarity:string,price:number}>} */
+const GACHA_ITEMS=[{id:"m1",name:"GOD CODE // OMEGA",rarity:"mystic",price:100000},{id:"m2",name:"CHRONO REALITY BENDER",rarity:"mystic",price:100000},{id:"m3",name:"VOID ENERGY CORE",rarity:"mystic",price:120000},{id:"l1",name:"NEURAL KATANA EX",rarity:"legendary",price:15000},{id:"l2",name:"CYBER CORE OVERDRIVE",rarity:"legendary",price:15000},{id:"l3",name:"PHANTOM CLOAK",rarity:"legendary",price:17500},{id:"e1",name:"QUANTUM CHIP V2",rarity:"epic",price:5000},{id:"e2",name:"TITAN EXOSKELETON",rarity:"epic",price:5000},{id:"e3",name:"HOLO-VISION GOGGLES",rarity:"epic",price:6000},{id:"r1",name:"PLASMA SHIELD",rarity:"rare",price:2000},{id:"r2",name:"DATA DRIVE 1TB",rarity:"rare",price:2000},{id:"r3",name:"ION BLASTER",rarity:"rare",price:2500},{id:"u1",name:"ENCRYPTED USB KEY",rarity:"uncommon",price:800},{id:"u2",name:"CYBERNETIC EYE",rarity:"uncommon",price:800},{id:"u3",name:"HACKER GLOVES",rarity:"uncommon",price:900},{id:"c1",name:"NANO BATTERY",rarity:"common",price:300},{id:"c2",name:"CYBER COIN",rarity:"common",price:300},{id:"c3",name:"SCRAP METAL",rarity:"common",price:150}];
+/** @type {Array<{id:string,name:string,rarity:string,price:number,isEvent:boolean}>} */
+const EVENT_ITEMS=[{id:"ev_dragons",name:"DRAGONS",rarity:"mystic",price:250000,isEvent:true},{id:"ev_micenzp",name:"MICENZP",rarity:"mystic",price:190000,isEvent:true},{id:"ev_leppzii",name:"LEPPZII",rarity:"mystic",price:200000,isEvent:true},{id:"ev_paroid",name:"PAROID",rarity:"mystic",price:220000,isEvent:true},{id:"ev_yainzzp",name:"YAINZZP",rarity:"mystic",price:215000,isEvent:true},{id:"ev_alzpzee",name:"ALZP ZEE",rarity:"mystic",price:211000,isEvent:true}];
+/** @type {Object<string,number>} */
+const PROMO_CODES={"123IIPQ":11,"DANZ770":12,"SAM01OQ":8,"QIEKALJ9":10,"SIEKAL00":20,"PPQRKAL":10,"CYBERV9":25};
+const BASE_PRICE=1000;
+const APK_PRICE=3500;
+/** @type {Object<string,*>} */ let memStorage={};
+/** @param {string} key @param {*} defaultVal @returns {*} */
+function loadData(key,defaultVal){try{let data=localStorage.getItem("cyber_v9_"+key);if(data)return JSON.parse(data);}catch(e){console.error("Gagal load data",e);}return defaultVal;}
+/** @param {string} key @param {*} val @returns {void} */
+function saveData(key,val){try{localStorage.setItem("cyber_v9_"+key,JSON.stringify(val));}catch(e){memStorage[key]=val;}}
+/** @param {number} exp @returns {{name:string,color:string,shadow:string,next:number|string}} */
+function getLevelInfo(exp){
+if(exp>=1500)return{name:"ETERNAL",color:"var(--blue-glow)",shadow:"rgba(0,112,255,.9)",next:"MAX"};
+if(exp>=800)return{name:"IMMORTAL",color:"var(--white-glow)",shadow:"rgba(255,255,255,.8)",next:1500};
+if(exp>=250)return{name:"MYTHIC",color:"var(--purple-glow)",shadow:"rgba(161,0,255,.8)",next:800};
+if(exp>=125)return{name:"MASTER",color:"var(--gold-glow)",shadow:"rgba(255,204,0,.8)",next:250};
+return{name:"BEGINNER",color:"var(--bronze-glow)",shadow:"rgba(205,127,50,.8)",next:125};
+}
+/** @type {any} */
+let state={balance:loadData('balance',0),exp:loadData('exp',0),gachaCount:loadData('gachaCount',0),claimedMissions:loadData('claimedMissions',{}),inventory:loadData('inventory',{}),activeDiscount:loadData('activeDiscount',0),discountExpire:loadData('discountExpire',0),usedCodes:loadData('usedCodes',[]),mysteryBoxExpire:loadData('mysteryBoxExpire',0),unlockedApks:loadData('unlockedApks',[]),guildUnlocked:loadData('guildUnlocked',false),activeTag:loadData('activeTag',"")};
+if(typeof state.inventory!=='object'||state.inventory===null)state.inventory={};
+if(typeof state.claimedMissions!=='object'||state.claimedMissions===null)state.claimedMissions={};
+if(!Array.isArray(state.usedCodes))state.usedCodes=[];
+if(!Array.isArray(state.unlockedApks))state.unlockedApks=[];
+  /** @param {string} id @returns {{id:string,name:string,rarity:string,price:number}|undefined} */
+function findItemById(id){let item=GACHA_ITEMS.find(function(x){return x.id===id;});if(!item)item=EVENT_ITEMS.find(function(x){return x.id===id;});return item;}
+/** @returns {{id:string,name:string,rarity:string,price:number}} */
+function getRandomGachaItem(){let rand=Math.random()*100;let targetRarity='common';if(rand<1)targetRarity='mystic';else if(rand<6)targetRarity='legendary';else if(rand<20)targetRarity='epic';else if(rand<40)targetRarity='rare';else if(rand<65)targetRarity='uncommon';let pool=GACHA_ITEMS.filter(function(item){return item.rarity===targetRarity;});if(pool.length===0)pool=GACHA_ITEMS;return pool[Math.floor(Math.random()*pool.length)];}
+/** @returns {{type:string,amount:number,name:string}} */
+function getMysteryBoxReward(){let rand=Math.random()*100;if(rand<0.1)return{type:'balance',amount:200000,name:'Rp 200.000 SIBER KREDIT [MYSTIC]'};if(rand<1)return{type:'exp',amount:1000,name:'1000 EXP [LEGENDARY]'};if(rand<4)return{type:'balance',amount:15000,name:'Rp 15.000 SIBER KREDIT [EPIC]'};if(rand<15)return{type:'exp',amount:200,name:'200 EXP [RARE]'};if(rand<45)return{type:'balance',amount:3000,name:'Rp 3.000 SIBER KREDIT [UNCOMMON]'};return{type:'exp',amount:50,name:'50 EXP [COMMON]'};}
+/** @returns {number} */
+function getCurrentGachaPrice(){if(state.activeDiscount>0)return BASE_PRICE-(BASE_PRICE*state.activeDiscount/100);return BASE_PRICE;}
+/** @returns {void} */
+function updateApkButtons(){let buttons=document.querySelectorAll('.apk-link-btn');for(let i=0;i<buttons.length;i++){let btn=buttons[i];let url=btn.getAttribute('data-apk-url');let priceSpan=btn.querySelector('.apk-price');if(!priceSpan)continue;if(url&&state.unlockedApks.indexOf(url)!==-1){priceSpan.innerText="✓ BUKA";priceSpan.style.color="var(--green-glow)";}else{priceSpan.innerText="Rp 3.500";priceSpan.style.color="var(--gold-glow)";}}}
+  /** @returns {void} */
+function syncAndUI(){
+saveData('balance',state.balance);saveData('exp',state.exp);
+saveData('gachaCount',state.gachaCount);saveData('claimedMissions',state.claimedMissions);
+saveData('inventory',state.inventory);saveData('activeDiscount',state.activeDiscount);
+saveData('discountExpire',state.discountExpire);saveData('usedCodes',state.usedCodes);
+saveData('mysteryBoxExpire',state.mysteryBoxExpire);saveData('unlockedApks',state.unlockedApks);
+saveData('guildUnlocked',state.guildUnlocked);saveData('activeTag',state.activeTag);
+document.getElementById('balanceDisplay').innerText="Rp "+state.balance.toLocaleString('id-ID');
+document.getElementById('prog-1').innerText=String(Math.min(state.gachaCount,1));
+document.getElementById('prog-3').innerText=String(Math.min(state.gachaCount,3));
+let lvl=getLevelInfo(state.exp);
+let badge=document.getElementById('levelBadge');
+badge.innerText=lvl.name;badge.style.color=lvl.color;
+badge.style.borderColor=lvl.color;badge.style.boxShadow="0 0 10px "+lvl.shadow;
+let expText=document.getElementById('expText');
+let expFill=document.getElementById('expFill');
+if(lvl.next==="MAX"){expText.innerText=state.exp+" / MAX";expText.style.color=lvl.color;expFill.style.width="100%";expFill.style.backgroundColor=lvl.color;}
+else{expText.innerText=state.exp+" / "+lvl.next+" EXP";expText.style.color="#88a0c0";expFill.style.width=Math.min(100,(state.exp/Number(lvl.next))*100)+"%";expFill.style.backgroundColor=lvl.color;}
+updateBtnMisi('btn-misi-1',"1",true);
+updateBtnMisi('btn-misi-2',"2",state.gachaCount>=1);
+updateBtnMisi('btn-misi-3',"3",state.gachaCount>=3);
+let btnGacha=document.getElementById('btn-gacha');
+if(state.activeDiscount>0){let cp=getCurrentGachaPrice();btnGacha.innerHTML='GACHA 1X <br><span style="text-decoration:line-through;font-size:.7rem;color:#556b88;">Rp 1.000</span> <span style="color:#050811;">Rp '+cp.toLocaleString('id-ID')+'</span>';}else{btnGacha.innerHTML='GACHA 1X (Rp 1.000)';}
+let inGuild=(window.fbState&&window.fbState.myGuildId)?true:false;
+let btnCG=document.getElementById('btn-create-guild');
+if(btnCG){if(inGuild){btnCG.style.display="none";}else{btnCG.style.display="block";if(state.guildUnlocked){btnCG.innerText="🏰 BUAT GUILD (SUDAH DIBELI)";}else{btnCG.innerText="🏰 BUAT GUILD (Rp 10.000)";}}}
+let btnGC=document.getElementById('btn-guild-chat');
+if(btnGC){if(inGuild){btnGC.classList.add('show');}else{btnGC.classList.remove('show');}}
+let btnLG=document.getElementById('btn-leave-guild');
+if(btnLG){if(inGuild){btnLG.classList.add('show');}else{btnLG.classList.remove('show');}}
+let tagDisp=document.getElementById('tagActiveDisplay');
+if(tagDisp){if(state.activeTag){let it=findItemById(state.activeTag);if(it&&state.inventory[state.activeTag]>0){let isEv=EVENT_ITEMS.some(function(x){return x.id===it.id;});let cls='rarity-'+it.rarity+(isEv?' event-tag':'');tagDisp.innerHTML='TAG AKTIF: <span class="'+cls+'">🏷️ '+escapeHtml(it.name)+'</span>';}else{state.activeTag="";saveData('activeTag',state.activeTag);tagDisp.innerText="TAG: Belum ada";}}else{tagDisp.innerText="TAG: Belum ada";}}
+updateApkButtons();renderInventory();renderShop();
+}
+/** @param {string} btnId @param {string} missionKey @param {boolean} requirementMet @returns {void} */
+function updateBtnMisi(btnId,missionKey,requirementMet){let btn=document.getElementById(btnId);if(state.claimedMissions[missionKey]){btn.innerText="TERKLAIM";btn.disabled=true;}else if(requirementMet){btn.innerText="KLAIM";btn.disabled=false;}else{btn.innerText="KLAIM";btn.disabled=true;}}
+/** @returns {void} */
+function renderInventory(){let container=document.getElementById('inventoryContainer');container.innerHTML='';let count=0;let keys=Object.keys(state.inventory);for(let i=0;i<keys.length;i++){let id=keys[i];let qty=state.inventory[id];if(qty>0){let item=findItemById(id);if(!item)continue;count+=qty;let isTagged=(state.activeTag===id);let div=document.createElement('div');div.className="inv-item bg-"+item.rarity;div.innerHTML='<div class="inv-info"><span class="inv-title rarity-'+item.rarity+'">'+item.name+' (x'+qty+')'+(isTagged?' 🏷️':'')+'</span><span class="inv-sub">Jual: Rp '+item.price.toLocaleString('id-ID')+'</span></div><button class="cyber-btn sell-btn" onclick="window.sellItem(\''+item.id+'\')">JUAL</button>';container.appendChild(div);}}if(count===0)container.innerHTML='<div class="empty-inv">[ INVENTORY KOSONG ]</div>';let badge=document.getElementById('invBadge');if(badge)badge.innerText=String(count);}
+/** @returns {void} */
+function renderShop(){let container=document.getElementById('shopContainer');container.innerHTML='';for(let i=0;i<GACHA_ITEMS.length;i++){let item=GACHA_ITEMS[i];let buyPrice=Math.floor(item.price*1.12);let div=document.createElement('div');div.className="shop-item bg-"+item.rarity;div.innerHTML='<div class="inv-info"><span class="inv-title rarity-'+item.rarity+'">'+item.name+'</span><span class="inv-sub">Beli: Rp '+buyPrice.toLocaleString('id-ID')+'</span></div><button class="cyber-btn sell-btn" style="border-color:var(--cyan-glow);color:var(--cyan-glow);" onclick="window.buyItem(\''+item.id+'\')">BELI</button>';container.appendChild(div);}}
+</script>
+<script>
+/** @param {string} msg @returns {void} */
+function showToast(msg){let toast=document.getElementById('toast');toast.innerText=msg;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},2500);}
+/** @param {{name:string,color:string,shadow:string}} lvl @returns {void} */
+function showLevelUpModal(lvl){let modal=document.getElementById('levelUpModal');let badge=document.getElementById('levelUpRankBadge');badge.innerText=lvl.name;badge.style.color=lvl.color;badge.style.borderColor=lvl.color;badge.style.boxShadow="0 0 20px "+lvl.shadow;modal.classList.add('active');}
+/** @returns {void} */
+function closeLevelUpModal(){document.getElementById('levelUpModal').classList.remove('active');}
+/** @param {number|string} missionId @param {number} reward @returns {void} */
+window.claimMission=function(missionId,reward){let key=String(missionId);if(state.claimedMissions[key])return;state.balance+=reward;state.claimedMissions[key]=true;syncAndUI();showToast("KLAIM SUKSES! +Rp "+reward.toLocaleString('id-ID'));};
+/** @param {string} itemId @returns {void} */
+window.sellItem=function(itemId){if(state.activeTag===itemId){showToast("❌ LEPAS TAG DULU SEBELUM JUAL!");return;}if(state.inventory[itemId]>0){let item=findItemById(itemId);if(!item)return;let oldLvl=getLevelInfo(state.exp);state.inventory[itemId]--;state.balance+=item.price;state.exp+=5;let newLvl=getLevelInfo(state.exp);syncAndUI();if(newLvl.name!==oldLvl.name){showLevelUpModal(newLvl);}else{showToast("TERJUAL! +Rp "+item.price.toLocaleString('id-ID')+" | +5 EXP");}}};
+/** @returns {void} */
+window.sellAllItems=function(){let totalItems=0,totalRupiah=0;let keys=Object.keys(state.inventory);for(let i=0;i<keys.length;i++){let id=keys[i];if(state.activeTag===id)continue;let qty=state.inventory[id];if(qty>0){let item=findItemById(id);if(!item)continue;totalItems+=qty;totalRupiah+=item.price*qty;state.inventory[id]=0;}}if(totalItems===0){showToast("❌ TIDAK ADA ITEM YANG BISA DIJUAL!");return;}let oldLvl=getLevelInfo(state.exp);state.balance+=totalRupiah;state.exp+=totalItems*5;let newLvl=getLevelInfo(state.exp);syncAndUI();if(newLvl.name!==oldLvl.name){setTimeout(function(){showLevelUpModal(newLvl);},400);}else{showToast("💰 TERJUAL "+totalItems+" ITEM! +Rp "+totalRupiah.toLocaleString('id-ID')+" | +"+(totalItems*5)+" EXP");}};
+/** @param {string} itemId @returns {void} */
+window.buyItem=function(itemId){let item=GACHA_ITEMS.find(function(x){return x.id===itemId;});if(!item)return;let buyPrice=Math.floor(item.price*1.12);if(state.balance<buyPrice){showToast("SALDO KREDIT TIDAK CUKUP!");return;}state.balance-=buyPrice;state.inventory[itemId]=(state.inventory[itemId]||0)+1;syncAndUI();showToast("BERHASIL MEMBELI "+item.name+"!");};
+  /** @returns {void} */
+window.openMysteryBox=function(){if(state.mysteryBoxExpire>Date.now()){showToast("BOX MASIH COOLDOWN!");return;}let btn=document.getElementById('btn-mystery-box');btn.disabled=true;btn.innerText="MEMBUKA...";setTimeout(function(){let reward=getMysteryBoxReward();let oldExp=state.exp;if(reward.type==='balance')state.balance+=reward.amount;if(reward.type==='exp')state.exp+=reward.amount;state.mysteryBoxExpire=Date.now()+43200000;let oldLvl=getLevelInfo(oldExp);let newLvl=getLevelInfo(state.exp);syncAndUI();showToast("🎁 MENDAPATKAN: "+reward.name);if(reward.type==='exp'&&newLvl.name!==oldLvl.name){setTimeout(function(){showLevelUpModal(newLvl);},1000);}},1200);};
+/** @returns {void} */
+function openRedeem(){document.getElementById('redeemModal').classList.add('active');}
+/** @returns {void} */
+function closeRedeem(){document.getElementById('redeemModal').classList.remove('active');document.getElementById('redeemInput').value='';}
+/** @returns {void} */
+function openShop(){renderShop();document.getElementById('shopModal').classList.add('active');}
+/** @returns {void} */
+function closeShop(){document.getElementById('shopModal').classList.remove('active');}
+/** @returns {void} */
+function openApkModal(){updateApkButtons();document.getElementById('apkModal').classList.add('active');}
+/** @returns {void} */
+function closeApkModal(){document.getElementById('apkModal').classList.remove('active');}
+/** @returns {void} */
+function openInventoryModal(){renderInventory();document.getElementById('inventoryModal').classList.add('active');}
+/** @returns {void} */
+function closeInventoryModal(){document.getElementById('inventoryModal').classList.remove('active');}
+/** @returns {void} */
+function openMissionModal(){document.getElementById('missionModal').classList.add('active');}
+/** @returns {void} */
+function closeMissionModal(){document.getElementById('missionModal').classList.remove('active');}
+/** @param {string} url @param {string} namaAplikasi @returns {void} */
+window.buyApkLink=function(url,namaAplikasi){if(state.unlockedApks.indexOf(url)!==-1){showToast("✅ MEMBUKA LINK: "+namaAplikasi);window.open(url,'_blank');return;}if(state.balance>=APK_PRICE){state.balance-=APK_PRICE;state.unlockedApks.push(url);syncAndUI();showToast("✅ UNLOCK PERMANEN: "+namaAplikasi+" (-Rp 3.500)");window.open(url,'_blank');}else{showToast("❌ SALDO KURANG DARI Rp 3.500!");}};
+  /** @type {string} */ let currentFriendFilter="";
+/** @type {string} */ let giftTargetUid="";
+/** @type {string} */ let giftTargetName="";
+/** @type {Array<string>} */ let dismissedUsers=loadData('dismissedUsers',[]);
+/** @returns {void} */
+window.openFriendModal=function(){let nameEl=document.getElementById('myCurrentName');let inputEl=document.getElementById('myUsernameInput');if(window.fbState){if(nameEl)nameEl.innerText=window.fbState.myUsername||'-';if(inputEl)inputEl.value=window.fbState.myUsername||'';}document.getElementById('friendModal').classList.add('active');renderFriendList();};
+/** @returns {void} */
+window.closeFriendModal=function(){document.getElementById('friendModal').classList.remove('active');};
+/** @param {string} q @returns {void} */
+window.filterFriendList=function(q){currentFriendFilter=(q||"").toLowerCase();renderFriendList();};
+/** @returns {void} */
+window.refreshFriendList=function(){if(document.getElementById('friendModal').classList.contains('active'))renderFriendList();};
+/** @param {string} uid @param {string} name @returns {void} */
+window.openGiftModal=function(uid,name){giftTargetUid=uid;giftTargetName=name;let label=document.getElementById('giftTargetLabel');if(label)label.innerText=name;renderGiftPicker();document.getElementById('giftModal').classList.add('active');};
+/** @returns {void} */
+window.closeGiftModal=function(){document.getElementById('giftModal').classList.remove('active');};
+/** @returns {void} */
+function renderGiftPicker(){let container=document.getElementById('giftPickerContainer');if(!container)return;container.innerHTML='';let keys=Object.keys(state.inventory);let shown=0;for(let i=0;i<keys.length;i++){let id=keys[i];let qty=state.inventory[id];if(qty>0){let item=findItemById(id);if(!item)continue;shown++;let div=document.createElement('div');div.className="gift-item-row bg-"+item.rarity;div.innerHTML='<div class="inv-info"><span class="inv-title rarity-'+item.rarity+'">'+item.name+' (x'+qty+')</span><span class="inv-sub">Rarity: '+item.rarity.toUpperCase()+'</span></div><button class="gift-send-btn" onclick="window.confirmSendGift(\''+item.id+'\')">🎁 KIRIM</button>';container.appendChild(div);}}if(shown===0)container.innerHTML='<div class="empty-inv">[ TIDAK ADA ITEM UNTUK DIKIRIM ]</div>';}
+/** @param {string} itemId @returns {void} */
+window.confirmSendGift=function(itemId){if(!state.inventory[itemId]||state.inventory[itemId]<=0){showToast("❌ ITEM TIDAK ADA!");return;}if(!window.fbSendGift){showToast("❌ FIREBASE BELUM SIAP!");return;}let item=findItemById(itemId);if(!item)return;let fromName=(window.fbState&&window.fbState.myUsername)?window.fbState.myUsername:"Anonim";window.fbSendGift(giftTargetUid,itemId,fromName).then(function(){state.inventory[itemId]--;syncAndUI();renderGiftPicker();showToast("🎁 "+item.name+" DIKIRIM KE "+giftTargetName+"!");if(state.inventory[itemId]<=0)setTimeout(function(){window.closeGiftModal();},800);}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL KIRIM HADIAH");});};
+/** @returns {void} */
+window.saveUsername=function(){let inputEl=document.getElementById('myUsernameInput');if(!inputEl)return;let newName=String(inputEl.value||'').trim();if(!newName){showToast("❌ NAMA TIDAK BOLEH KOSONG!");return;}if(newName.length<3){showToast("❌ MINIMAL 3 KARAKTER!");return;}if(newName.length>20){showToast("❌ MAKSIMAL 20 KARAKTER!");return;}localStorage.setItem('cyber_myUsername',newName);if(window.fbUpdateUsername){window.fbUpdateUsername(newName).then(function(){showToast("✅ NAMA DIUBAH: "+newName);let nameEl=document.getElementById('myCurrentName');if(nameEl)nameEl.innerText=newName;}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("⚠️ DISIMPAN LOKAL SAJA");let nameEl=document.getElementById('myCurrentName');if(nameEl)nameEl.innerText=newName;});}else{showToast("⚠️ DISIMPAN LOKAL SAJA");let nameEl=document.getElementById('myCurrentName');if(nameEl)nameEl.innerText=newName;}};
+  /** @returns {void} */
+function renderFriendList(){let reqContainer=document.getElementById('reqContainer');let myFriendContainer=document.getElementById('myFriendContainer');let recContainer=document.getElementById('friendListContainer');let reqCountEl=document.getElementById('reqCount');let myFriendCountEl=document.getElementById('myFriendCount');let recCountEl=document.getElementById('friendCount');if(!reqContainer||!myFriendContainer||!recContainer)return;if(!window.fbState||!window.fbState.ready){reqContainer.innerHTML='<div class="empty-inv">[ ⏳ MEMUAT... ]</div>';myFriendContainer.innerHTML='<div class="empty-inv">[ ⏳ MEMUAT... ]</div>';recContainer.innerHTML='<div class="empty-inv">[ ⏳ MEMUAT... ]</div>';if(reqCountEl)reqCountEl.innerText="(0)";if(myFriendCountEl)myFriendCountEl.innerText="(0)";if(recCountEl)recCountEl.innerText="(0)";return;}/** @type {Array<any>} */ let users=window.fbState.users||[];/** @type {Array<string>} */ let myFriends=window.fbState.friends||[];/** @type {Array<string>} */ let incoming=window.fbState.incoming||[];/** @type {Array<string>} */ let outgoing=window.fbState.outgoing||[];let myUid=window.fbState.myUid||"";/** @type {Array<any>} */ let reqUsers=[];/** @type {Array<any>} */ let friendUsers=[];/** @type {Array<any>} */ let recUsers=[];for(let i=0;i<users.length;i++){let u=users[i];if(!u||!u.username)continue;if(u.uid===myUid)continue;if(currentFriendFilter&&String(u.username).toLowerCase().indexOf(currentFriendFilter)===-1)continue;if(incoming.indexOf(u.uid)!==-1)reqUsers.push(u);else if(myFriends.indexOf(u.uid)!==-1)friendUsers.push(u);else if(dismissedUsers.indexOf(u.uid)===-1)recUsers.push(u);}if(reqCountEl)reqCountEl.innerText="("+reqUsers.length+")";if(myFriendCountEl)myFriendCountEl.innerText="("+friendUsers.length+")";if(recCountEl)recCountEl.innerText="("+recUsers.length+")";if(reqUsers.length===0){reqContainer.innerHTML='<div class="empty-inv">[ TIDAK ADA PERMINTAAN ]</div>';}else{reqContainer.innerHTML='';for(let i=0;i<reqUsers.length;i++)reqContainer.appendChild(createRequestItem(reqUsers[i]));}if(friendUsers.length===0){myFriendContainer.innerHTML=currentFriendFilter?'<div class="empty-inv">[ TIDAK ADA TEMAN COCOK ]</div>':'<div class="empty-inv">[ BELUM ADA TEMAN ]</div>';}else{myFriendContainer.innerHTML='';for(let i=0;i<friendUsers.length;i++)myFriendContainer.appendChild(createFriendItem(friendUsers[i],"friend"));}if(recUsers.length===0){recContainer.innerHTML=currentFriendFilter?'<div class="empty-inv">[ TIDAK ADA HASIL ]</div>':'<div class="empty-inv">[ BELUM ADA PENGGUNA LAIN ]</div>';}else{recContainer.innerHTML='';for(let i=0;i<recUsers.length;i++){let u=recUsers[i];let kind=outgoing.indexOf(u.uid)!==-1?"pending":"none";recContainer.appendChild(createFriendItem(u,kind));}}}
+/** @param {any} u @returns {HTMLDivElement} */
+function createRequestItem(u){let initial=String(u.username).charAt(0).toUpperCase();let div=document.createElement('div');div.className="friend-item";div.innerHTML='<div style="display:flex;align-items:center;"><div class="friend-avatar">'+initial+'</div><div class="inv-info"><span class="inv-title" style="color:var(--cyan-glow);font-size:.78rem;">'+escapeHtml(u.username)+'</span><span class="inv-sub">📩 Ingin berteman</span></div></div><div class="req-btn-group"><button class="req-accept" onclick="window.clickAccept(\''+u.uid+'\',\''+escapeHtml(u.username).replace(/\'/g,"\\\'")+'\')">✓ TERIMA</button><button class="req-reject" onclick="window.clickReject(\''+u.uid+'\',\''+escapeHtml(u.username).replace(/\'/g,"\\\'")+'\')">✕</button></div>';return div;}
+/** @param {any} u @param {string} kind @returns {HTMLDivElement} */
+function createFriendItem(u,kind){let initial=String(u.username).charAt(0).toUpperCase();let safeName=escapeHtml(u.username).replace(/\'/g,"\\\'");let div=document.createElement('div');div.className="friend-item";let btnHtml='';let subtitle='';let namePrefix='';if(kind==="friend"){subtitle="✓ Sudah berteman";namePrefix='';btnHtml='<div class="friend-action-row"><button class="gift-send-btn" onclick="window.openGiftModal(\''+u.uid+'\',\''+safeName+'\')">🎁</button><button class="friend-add-btn added" disabled>✓ TEMAN</button></div>';}else if(kind==="pending"){subtitle="⏳ Menunggu konfirmasi";namePrefix='';btnHtml='<div class="friend-action-row"><button class="friend-reject-btn" onclick="window.clickDismissUser(\''+u.uid+'\',\''+safeName+'\')">✕</button><button class="friend-add-btn pending" disabled>⏳ MENUNGGU</button></div>';}else{let isOnline=isUserOnline(u.lastSeen);let dotClass=isOnline?"online":"offline";let label=isOnline?"🟢 Online":"⚫ Offline";subtitle='<span class="chat-status-text '+dotClass+'">'+label+'</span>';namePrefix='<span class="status-dot '+dotClass+'"></span>';btnHtml='<div class="friend-action-row"><button class="friend-reject-btn" onclick="window.clickDismissUser(\''+u.uid+'\',\''+safeName+'\')">✕</button><button class="friend-add-btn" onclick="window.clickSendRequest(\''+u.uid+'\',\''+safeName+'\')">+ TAMBAH</button></div>';}div.innerHTML='<div style="display:flex;align-items:center;"><div class="friend-avatar">'+initial+'</div><div class="inv-info"><span class="inv-title" style="color:var(--cyan-glow);font-size:.78rem;">'+namePrefix+escapeHtml(u.username)+'</span><span class="inv-sub">'+subtitle+'</span></div></div>'+btnHtml;return div;}
+/** @param {*} s @returns {string} */
+function escapeHtml(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+/** @param {string} toUid @param {string} username @returns {void} */
+window.clickSendRequest=function(toUid,username){if(!window.fbSendRequest){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbSendRequest(toUid).then(function(){showToast("📩 PERMINTAAN DIKIRIM KE "+username);renderFriendList();}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL MENGIRIM PERMINTAAN");});};
+/** @param {string} fromUid @param {string} username @returns {void} */
+window.clickAccept=function(fromUid,username){if(!window.fbAcceptRequest){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbAcceptRequest(fromUid).then(function(){showToast("✅ "+username+" KINI TEMANMU!");renderFriendList();}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL MENERIMA");});};
+/** @param {string} fromUid @param {string} username @returns {void} */
+window.clickReject=function(fromUid,username){if(!window.fbRejectRequest){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbRejectRequest(fromUid).then(function(){showToast("✕ PERMINTAAN DARI "+username+" DITOLAK");renderFriendList();}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL MENOLAK");});};
+/** @param {string} uid @param {string} username @returns {void} */
+window.clickDismissUser=function(uid,username){if(dismissedUsers.indexOf(uid)===-1){dismissedUsers.push(uid);saveData('dismissedUsers',dismissedUsers);showToast("✕ "+username+" DIHAPUS DARI REKOMENDASI");renderFriendList();}};
+/** @returns {void} */
+window.resetRecommendations=function(){if(dismissedUsers.length===0){showToast("ℹ️ TIDAK ADA YANG PERLU DI-RESET");return;}if(!confirm("Kembalikan SEMUA pemain yang pernah kamu hapus dari rekomendasi?"))return;dismissedUsers=[];saveData('dismissedUsers',dismissedUsers);showToast("✅ REKOMENDASI DI-RESET!");renderFriendList();};
+  /** @type {string} */ let currentChatUid="";
+/** @type {string} */ let currentChatFilter="";
+/** @type {Array<{from:string,text:string,tag:string,timestamp:number}>} */ let currentChatMessages=[];
+(function(){let inp=document.getElementById('chatInput');if(inp){inp.addEventListener('keydown',
+/** @param {KeyboardEvent} e */
+function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();window.sendChat();}});}})();
+/** @param {number} lastSeen @returns {boolean} */
+function isUserOnline(lastSeen){if(!lastSeen)return false;return (Date.now()-lastSeen)<300000;}
+/** @returns {void} */
+window.backToChatList=function(){if(window.fbStopChatListener)window.fbStopChatListener();currentChatUid="";currentChatMessages=[];document.getElementById('chatRoomModal').classList.remove('active');document.getElementById('chatListModal').classList.add('active');renderChatList();};
+/** @returns {void} */
+window.openChatListModal=function(){currentChatFilter="";let searchEl=document.getElementById('chatListSearch');if(searchEl)searchEl.value="";document.getElementById('chatListModal').classList.add('active');renderChatList();};
+/** @returns {void} */
+window.closeChatListModal=function(){document.getElementById('chatListModal').classList.remove('active');};
+/** @param {string} q @returns {void} */
+window.filterChatList=function(q){currentChatFilter=(q||"").toLowerCase();renderChatList();};
+/** @returns {void} */
+function renderChatList(){let container=document.getElementById('chatListContainer');if(!container)return;if(!window.fbState||!window.fbState.ready){container.innerHTML='<div class="empty-inv">[ ⏳ MEMUAT... ]</div>';return;}/** @type {Array<any>} */ let users=window.fbState.users||[];/** @type {Array<string>} */ let myFriends=window.fbState.friends||[];let myUid=window.fbState.myUid||"";/** @type {Array<any>} */ let friendUsers=[];for(let i=0;i<users.length;i++){let u=users[i];if(!u||!u.username)continue;if(u.uid===myUid)continue;if(myFriends.indexOf(u.uid)===-1)continue;if(currentChatFilter&&String(u.username).toLowerCase().indexOf(currentChatFilter)===-1)continue;friendUsers.push(u);}if(friendUsers.length===0){container.innerHTML=currentChatFilter?'<div class="empty-inv">[ TIDAK ADA TEMAN COCOK ]</div>':'<div class="empty-inv">[ BELUM ADA TEMAN — TAMBAH DULU ]</div>';return;}container.innerHTML='';for(let i=0;i<friendUsers.length;i++){let u=friendUsers[i];let initial=String(u.username).charAt(0).toUpperCase();let safeName=escapeHtml(u.username).replace(/\'/g,"\\\'");let isOnline=isUserOnline(u.lastSeen);let statusClass=isOnline?"online":"offline";let statusLabel=isOnline?"🟢 Online":"⚫ Offline";let div=document.createElement('div');div.className="friend-item";div.innerHTML='<div style="display:flex;align-items:center;"><div class="friend-avatar">'+initial+'</div><div class="inv-info"><span class="inv-title" style="color:var(--cyan-glow);font-size:.78rem;"><span class="status-dot '+statusClass+'"></span>'+escapeHtml(u.username)+'</span><span class="inv-sub chat-status-text '+statusClass+'">'+statusLabel+'</span></div></div><button class="chat-open-btn" onclick="window.openChatRoom(\''+u.uid+'\',\''+safeName+'\')">💬 BUKA</button>';container.appendChild(div);}}
+  /** @param {string} uid @returns {void} */
+function updateChatHeaderStatus(uid){let dotEl=document.getElementById('chatWithStatusDot');let textEl=document.getElementById('chatWithStatusText');if(!dotEl||!textEl)return;if(!window.fbState||!window.fbState.users)return;let target=null;for(let i=0;i<window.fbState.users.length;i++){if(window.fbState.users[i].uid===uid){target=window.fbState.users[i];break;}}if(!target)return;let isOnline=isUserOnline(target.lastSeen);dotEl.className="status-dot "+(isOnline?"online":"offline");textEl.className="chat-status-text "+(isOnline?"online":"offline");textEl.innerText=isOnline?"🟢 Online":"⚫ Offline";}
+/** @param {string} uid @param {string} name @returns {void} */
+window.openChatRoom=function(uid,name){currentChatUid=uid;currentChatMessages=[];let nameEl=document.getElementById('chatWithName');if(nameEl)nameEl.innerText=name;updateChatHeaderStatus(uid);let msgBox=document.getElementById('chatMessages');if(msgBox)msgBox.innerHTML='<div class="empty-inv">[ MEMUAT PESAN... ]</div>';let inputEl=document.getElementById('chatInput');if(inputEl)inputEl.value="";document.getElementById('chatListModal').classList.remove('active');document.getElementById('chatRoomModal').classList.add('active');if(window.fbListenChat){window.fbListenChat(uid,
+/** @param {Array<{from:string,text:string,tag:string,timestamp:number}>} messages */
+function(messages){currentChatMessages=messages;renderChatMessages();});}};
+/** @returns {void} */
+window.closeChatRoom=function(){if(window.fbStopChatListener)window.fbStopChatListener();currentChatUid="";currentChatMessages=[];document.getElementById('chatRoomModal').classList.remove('active');};
+setInterval(function(){let cl=document.getElementById('chatListModal');if(cl&&cl.classList.contains('active'))renderChatList();let cr=document.getElementById('chatRoomModal');if(cr&&cr.classList.contains('active')&&currentChatUid)updateChatHeaderStatus(currentChatUid);},30000);
+/** @returns {void} */
+function renderChatMessages(){let container=document.getElementById('chatMessages');if(!container)return;if(!currentChatMessages||currentChatMessages.length===0){container.innerHTML='<div class="empty-inv">[ BELUM ADA PESAN — MULAI CHAT! ]</div>';return;}let myUid=(window.fbState&&window.fbState.myUid)?window.fbState.myUid:"";container.innerHTML='';for(let i=0;i<currentChatMessages.length;i++){let m=currentChatMessages[i];let isMe=m.from===myUid;let div=document.createElement('div');div.className="chat-bubble "+(isMe?"me":"them");let timeStr="";if(m.timestamp){let d=new Date(m.timestamp);let hh=String(d.getHours()).padStart(2,'0');let mm=String(d.getMinutes()).padStart(2,'0');timeStr='<div class="chat-bubble-time">'+hh+':'+mm+'</div>';}let tagHtml="";if(m.tag){let it=findItemById(m.tag);if(it){let isEv=EVENT_ITEMS.some(function(x){return x.id===it.id;});let cls='chat-tag-badge rarity-'+it.rarity+(isEv?' event-tag':'');tagHtml='<span class="'+cls+'">🏷️ '+escapeHtml(it.name)+'</span><br>';}}div.innerHTML=tagHtml+escapeHtml(m.text||'')+timeStr;container.appendChild(div);}container.scrollTop=container.scrollHeight;}
+/** @returns {void} */
+window.sendChat=function(){let input=document.getElementById('chatInput');if(!input)return;let text=String(input.value||'').trim();if(!text)return;if(!currentChatUid){showToast("❌ PILIH TEMAN DULU!");return;}if(!window.fbSendMessage){showToast("❌ FIREBASE BELUM SIAP!");return;}let tag=state.activeTag||"";if(tag){let it=findItemById(tag);if(!it||state.inventory[tag]<=0)tag="";}window.fbSendMessage(currentChatUid,text,tag).then(function(){input.value='';}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL KIRIM PESAN");});};
+  /** @param {string} itemId @param {string} fromName @returns {void} */
+window.receiveGift=function(itemId,fromName){let item=findItemById(itemId);if(!item)return;state.inventory[itemId]=(state.inventory[itemId]||0)+1;syncAndUI();showToast("🎁 DAPAT "+item.name+" DARI "+(fromName||"TEMAN")+"!");};
+/** @returns {void} */
+function processRedeem(){let inputEl=document.getElementById('redeemInput');let code=inputEl.value.trim().toUpperCase();if(!code)return;if(state.activeDiscount>0&&Date.now()<state.discountExpire){showToast("TUNGGU COOLDOWN DISKON!");return;}if(!PROMO_CODES[code]){showToast("KODE TIDAK VALID!");return;}if(state.usedCodes.includes(code)){showToast("KODE SUDAH DIGUNAKAN!");return;}state.activeDiscount=PROMO_CODES[code];state.discountExpire=Date.now()+(24*60*60*1000);state.usedCodes.push(code);syncAndUI();closeRedeem();showToast("KODE DITERIMA! DISKON "+PROMO_CODES[code]+"% AKTIF");}
+setInterval(function(){let now=Date.now();if(state.activeDiscount>0){let timeLeft=state.discountExpire-now;if(timeLeft<=0){state.activeDiscount=0;state.discountExpire=0;syncAndUI();showToast("BUFF DISKON BERAKHIR!");}else{let h=Math.floor(timeLeft/(1000*60*60));let m=Math.floor((timeLeft%(1000*60*60))/(1000*60));let s=Math.floor((timeLeft%(1000*60))/1000);document.getElementById('buff-timer').innerHTML='» BUFF DISKON '+state.activeDiscount+'% AKTIF ('+h+'j '+m+'m '+s+'d) «';}}else{document.getElementById('buff-timer').innerHTML='';}let mbLeft=state.mysteryBoxExpire-now;let mbCard=document.getElementById('mysteryBoxCard');let mbBtn=document.getElementById('btn-mystery-box');let mbStatus=document.getElementById('mysteryBoxStatus');let mbTitle=document.getElementById('mysteryBoxTitle');if(mbLeft>0){let h=Math.floor(mbLeft/(1000*60*60));let m=Math.floor((mbLeft%(1000*60*60))/(1000*60));let s=Math.floor((mbLeft%(1000*60))/1000);mbStatus.innerText='Tersedia dalam: '+h+'j '+m+'m '+s+'d';mbCard.classList.add('cooldown');if(mbBtn.innerText!=="MEMBUKA..."){mbBtn.disabled=true;mbBtn.innerText="TERKUNCI";mbTitle.style.color="#556b88";}}else{mbStatus.innerText="Status: Siap Dibuka!";mbCard.classList.remove('cooldown');if(mbBtn.innerText!=="MEMBUKA..."){mbBtn.disabled=false;mbBtn.innerText="BUKA BOX";mbTitle.style.color="var(--gold-glow)";}}},1000);
+document.getElementById('btn-misi-1').onclick=function(){window.claimMission(1,2000);};
+document.getElementById('btn-misi-2').onclick=function(){window.claimMission(2,3000);};
+document.getElementById('btn-misi-3').onclick=function(){window.claimMission(3,5000);};
+document.getElementById('btn-reset').onclick=function(){if(confirm("Apakah kamu yakin ingin MERESET semua data?")){localStorage.clear();state={balance:0,exp:0,gachaCount:0,claimedMissions:{},inventory:{},activeDiscount:0,discountExpire:0,usedCodes:[],mysteryBoxExpire:0,unlockedApks:[],guildUnlocked:false,activeTag:""};dismissedUsers=[];syncAndUI();showToast("DATA TERMINAL BERHASIL DIRESET");}};
+document.getElementById('btn-gacha').onclick=function(){let currentCost=getCurrentGachaPrice();if(state.balance<currentCost){showToast("SALDO KREDIT TIDAK CUKUP!");return;}state.balance-=currentCost;state.gachaCount+=1;syncAndUI();let btn=document.getElementById('btn-gacha');let box=document.getElementById('gachaDisplayBox');btn.disabled=true;box.classList.add('rolling');let timerCount=0;let timer=setInterval(function(){let temp=GACHA_ITEMS[Math.floor(Math.random()*GACHA_ITEMS.length)];box.className="gacha-box bg-"+temp.rarity;box.innerHTML='<div class="gacha-item-title rarity-'+temp.rarity+'">'+temp.name+'</div>';timerCount++;if(timerCount>10){clearInterval(timer);box.classList.remove('rolling');btn.disabled=false;let finalItem=getRandomGachaItem();state.inventory[finalItem.id]=(state.inventory[finalItem.id]||0)+1;box.className="gacha-box bg-"+finalItem.rarity;box.innerHTML='<div style="font-size:.75rem;color:#88a0c0;">BERHASIL MENDAPATKAN:</div><div class="gacha-item-title rarity-'+finalItem.rarity+'">'+finalItem.name+'</div>';syncAndUI();showToast("DAPAT ITEM: "+finalItem.name);}},80);};
+  const GUILD_PRICE=10000;
+/** @type {Array<any>} */ let allGuilds=[];
+/** @returns {void} */
+window.searchGuild=function(){let input=document.getElementById('guildSearchInput');let resultBox=document.getElementById('guildResult');let emptyBox=document.getElementById('guildResultEmpty');if(!input||!resultBox||!emptyBox)return;let q=String(input.value||'').trim().toLowerCase();if(!q){showToast("❌ KETIK NAMA GUILD DULU!");return;}resultBox.classList.remove('show');emptyBox.classList.remove('show');let found=null;for(let i=0;i<allGuilds.length;i++){let g=allGuilds[i];if(g&&g.name&&String(g.name).toLowerCase()===q){found=g;break;}}if(!found){emptyBox.classList.add('show');return;}let memberCount=found.memberCount||0;let maxMembers=found.maxMembers||999;let minMembers=found.minMembers||1;let policyText=(found.joinPolicy==="friends")?"Hanya Teman":"Semua Orang";let isMember=false;if(window.fbState&&window.fbState.myGuildId===found.id)isMember=true;let isFull=(memberCount>=maxMembers);let countText=memberCount+'/'+maxMembers;let joinBtn='';if(isMember){joinBtn='<button class="cyber-btn" disabled style="width:100%;">✓ SUDAH BERGABUNG</button>';}else if(isFull){joinBtn='<button class="cyber-btn" disabled style="width:100%;">🚫 GUILD PENUH</button>';}else{joinBtn='<button class="cyber-btn pink-btn" style="width:100%;" onclick="window.joinGuild(\''+found.id+'\')">➕ JOIN GUILD</button>';}resultBox.innerHTML='<div class="guild-result-name">🏰 '+escapeHtml(found.name)+'</div><div class="guild-result-info">👥 Anggota: '+countText+' • 🔒 '+policyText+' • Min: '+minMembers+'</div>'+joinBtn;resultBox.classList.add('show');};
+/** @param {string} guildId @returns {void} */
+window.joinGuild=function(guildId){if(!window.fbJoinGuild){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbJoinGuild(guildId).then(
+/** @param {*} res */
+function(res){if(res&&res.success){showToast("✅ BERHASIL JOIN GUILD!");searchGuild();}else{showToast("❌ "+((res&&res.reason)?res.reason:"GAGAL JOIN"));}}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL JOIN GUILD");});};
+/** @returns {void} */
+window.openCreateGuild=function(){if(!state.guildUnlocked){if(state.balance<GUILD_PRICE){showToast("❌ SALDO KURANG DARI Rp 10.000!");return;}if(!confirm("Beli fitur BUAT GUILD permanen dengan Rp 10.000?"))return;state.balance-=GUILD_PRICE;state.guildUnlocked=true;syncAndUI();showToast("✅ UNLOCK PERMANEN! BUAT GUILD SEKARANG");}let nameEl=document.getElementById('guildNameInput');if(nameEl)nameEl.value="";let minEl=document.getElementById('guildMinMembersInput');if(minEl)minEl.value="5";let maxEl=document.getElementById('guildMaxMembersInput');if(maxEl)maxEl.value="50";let polEl=document.getElementById('guildJoinPolicy');if(polEl)polEl.value="everyone";document.getElementById('guildCreateModal').classList.add('active');};
+/** @returns {void} */
+window.closeCreateGuild=function(){document.getElementById('guildCreateModal').classList.remove('active');};
+/** @returns {void} */
+window.submitCreateGuild=function(){if(!state.guildUnlocked){showToast("❌ BELI DULU FITUR BUAT GUILD!");return;}let nameEl=document.getElementById('guildNameInput');let minEl=document.getElementById('guildMinMembersInput');let maxEl=document.getElementById('guildMaxMembersInput');let polEl=document.getElementById('guildJoinPolicy');if(!nameEl||!minEl||!maxEl||!polEl)return;let name=String(nameEl.value||'').trim();let minMembers=parseInt(String(minEl.value||"0"),10);let maxMembers=parseInt(String(maxEl.value||"0"),10);let policy=String(polEl.value||"everyone");if(!name){showToast("❌ NAMA GUILD KOSONG!");return;}if(name.length<3){showToast("❌ NAMA MINIMAL 3 KARAKTER!");return;}if(isNaN(minMembers)||minMembers<1){showToast("❌ MINIMUM ANGGOTA MINIMAL 1!");return;}if(isNaN(maxMembers)||maxMembers<1){showToast("❌ MAKSIMUM ANGGOTA MINIMAL 1!");return;}if(maxMembers<minMembers){showToast("❌ MAX HARUS ≥ MIN!");return;}if(maxMembers>999){showToast("❌ MAX MAKSIMAL 999!");return;}if(!window.fbCreateGuild){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbCreateGuild(name,minMembers,maxMembers,policy).then(
+/** @param {*} res */
+function(res){if(res&&res.success){showToast("✅ GUILD BERHASIL DIBUAT!");closeCreateGuild();}else{showToast("❌ "+((res&&res.reason)?res.reason:"GAGAL BUAT GUILD"));}}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL BUAT GUILD");});};
+  /** @returns {void} */
+window.refreshGuildChatBtn=function(){let inGuild=(window.fbState&&window.fbState.myGuildId)?true:false;let btnCG=document.getElementById('btn-create-guild');let btnGC=document.getElementById('btn-guild-chat');let btnLG=document.getElementById('btn-leave-guild');if(btnCG){if(inGuild){btnCG.style.display="none";}else{btnCG.style.display="block";}}if(btnGC){if(inGuild)btnGC.classList.add('show');else btnGC.classList.remove('show');}if(btnLG){if(inGuild)btnLG.classList.add('show');else btnLG.classList.remove('show');}};
+/** @type {Array<{from:string,fromName:string,text:string,tag:string,timestamp:number}>} */ let currentGuildChatMessages=[];
+/** @returns {void} */
+window.openGuildChat=function(){if(!window.fbState||!window.fbState.myGuildId){showToast("❌ KAMU BELUM JOIN GUILD!");return;}let gid=window.fbState.myGuildId;let gName="-";let gCount=0;for(let i=0;i<allGuilds.length;i++){if(allGuilds[i].id===gid){gName=allGuilds[i].name||"-";gCount=allGuilds[i].memberCount||0;break;}}let nameEl=document.getElementById('guildChatName');if(nameEl)nameEl.innerText=gName;let countEl=document.getElementById('guildChatMemberCount');if(countEl)countEl.innerText=String(gCount);let msgBox=document.getElementById('guildChatMessages');if(msgBox)msgBox.innerHTML='<div class="empty-inv">[ MEMUAT PESAN... ]</div>';let inputEl=document.getElementById('guildChatInput');if(inputEl)inputEl.value="";currentGuildChatMessages=[];document.getElementById('guildChatModal').classList.add('active');if(window.fbListenGuildChat){window.fbListenGuildChat(gid,
+/** @param {Array<{from:string,fromName:string,text:string,tag:string,timestamp:number}>} messages */
+function(messages){currentGuildChatMessages=messages;renderGuildChatMessages();});}};
+/** @returns {void} */
+window.closeGuildChat=function(){if(window.fbStopGuildChatListener)window.fbStopGuildChatListener();currentGuildChatMessages=[];document.getElementById('guildChatModal').classList.remove('active');};
+/** @returns {void} */
+function renderGuildChatMessages(){let container=document.getElementById('guildChatMessages');if(!container)return;if(!currentGuildChatMessages||currentGuildChatMessages.length===0){container.innerHTML='<div class="empty-inv">[ BELUM ADA PESAN — MULAI CHAT GUILD! ]</div>';return;}let myUid=(window.fbState&&window.fbState.myUid)?window.fbState.myUid:"";container.innerHTML='';for(let i=0;i<currentGuildChatMessages.length;i++){let m=currentGuildChatMessages[i];let isMe=m.from===myUid;let div=document.createElement('div');div.className="chat-bubble "+(isMe?"me":"them");let timeStr="";if(m.timestamp){let d=new Date(m.timestamp);let hh=String(d.getHours()).padStart(2,'0');let mm=String(d.getMinutes()).padStart(2,'0');timeStr='<div class="chat-bubble-time">'+hh+':'+mm+'</div>';}let senderTag=isMe?"":('<span style="font-weight:bold;font-size:.7rem;color:var(--gold-glow);">'+escapeHtml(m.fromName||"Anonim")+':</span><br>');let tagHtml="";if(m.tag){let it=findItemById(m.tag);if(it){let isEv=EVENT_ITEMS.some(function(x){return x.id===it.id;});let cls='chat-tag-badge rarity-'+it.rarity+(isEv?' event-tag':'');tagHtml='<span class="'+cls+'">🏷️ '+escapeHtml(it.name)+'</span><br>';}}div.innerHTML=senderTag+tagHtml+escapeHtml(m.text||'')+timeStr;container.appendChild(div);}container.scrollTop=container.scrollHeight;}
+/** @returns {void} */
+window.sendGuildChat=function(){let input=document.getElementById('guildChatInput');if(!input)return;let text=String(input.value||'').trim();if(!text)return;if(!window.fbState||!window.fbState.myGuildId){showToast("❌ KAMU BELUM JOIN GUILD!");return;}if(!window.fbSendGuildMessage){showToast("❌ FIREBASE BELUM SIAP!");return;}let myName=(window.fbState&&window.fbState.myUsername)?window.fbState.myUsername:"Anonim";let tag=state.activeTag||"";if(tag){let it=findItemById(tag);if(!it||state.inventory[tag]<=0)tag="";}window.fbSendGuildMessage(window.fbState.myGuildId,text,myName,tag).then(function(){input.value='';}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL KIRIM PESAN");});};
+(function(){let inp=document.getElementById('guildChatInput');if(inp){inp.addEventListener('keydown',
+/** @param {KeyboardEvent} e */
+function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();window.sendGuildChat();}});}})();
+/** @returns {void} */
+window.leaveGuild=function(){if(!window.fbState||!window.fbState.myGuildId){showToast("❌ KAMU TIDAK DALAM GUILD!");return;}if(!confirm("Yakin ingin KELUAR dari guild ini? Kamu harus join ulang jika ingin kembali."))return;if(!window.fbLeaveGuild){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbLeaveGuild().then(
+/** @param {*} res */
+function(res){if(res&&res.success){showToast("✅ BERHASIL KELUAR GUILD");if(typeof window.refreshGuildChatBtn==='function')window.refreshGuildChatBtn();}else{showToast("❌ "+((res&&res.reason)?res.reason:"GAGAL KELUAR"));}}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL KELUAR GUILD");});};
+/** @returns {void} */
+window.clearChatHistory=function(){if(!currentChatUid){showToast("❌ TIDAK ADA CHAT AKTIF");return;}if(!confirm("Yakin HAPUS SEMUA RIWAYAT CHAT ini? Akan hilang di KEDUA PIHAK."))return;if(!window.fbClearChatMessages){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbClearChatMessages(currentChatUid).then(function(){currentChatMessages=[];renderChatMessages();showToast("✅ RIWAYAT CHAT DIBERSIHKAN");}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL BERSIHKAN");});};
+/** @returns {void} */
+window.clearGuildChatHistory=function(){if(!window.fbState||!window.fbState.myGuildId){showToast("❌ KAMU BELUM JOIN GUILD!");return;}if(!confirm("Yakin HAPUS SEMUA RIWAYAT CHAT GUILD? Akan hilang untuk SEMUA anggota."))return;if(!window.fbClearGuildChatMessages){showToast("❌ FIREBASE BELUM SIAP!");return;}window.fbClearGuildChatMessages(window.fbState.myGuildId).then(function(){currentGuildChatMessages=[];renderGuildChatMessages();showToast("✅ CHAT GUILD DIBERSIHKAN");}).catch(
+/** @param {*} err */
+function(err){console.error(err);showToast("❌ GAGAL BERSIHKAN");});};
+  /** @type {string} */ let currentEventFilter="";
+/** @returns {boolean} */
+function isEventOpen(){let now=new Date();let h=now.getHours();let m=now.getMinutes();let totalMin=h*60+m;let startMin=20*60+30;let endMin=21*60+30;return totalMin>=startMin&&totalMin<endMin;}
+/** @returns {{open:boolean,text:string,sub:string}} */
+function getEventStatus(){let now=new Date();let h=now.getHours();let m=now.getMinutes();let totalMin=h*60+m;let startMin=20*60+30;let endMin=21*60+30;if(totalMin<startMin){let diff=startMin-totalMin;let hh=Math.floor(diff/60);let mm=diff%60;return{open:false,text:"BUKA<br>"+String(hh).padStart(2,'0')+"j "+String(mm).padStart(2,'0')+"m LAGI",sub:"Belum dibuka • Mulai 20.30"};}if(totalMin>=endMin){return{open:false,text:"BUKA BESOK<br>20.30",sub:"Sudah berakhir • Besok 20.30"};}let diff=endMin-totalMin;let hh=Math.floor(diff/60);let mm=diff%60;return{open:true,text:"🔥 AKTIF<br>SISA "+String(hh).padStart(2,'0')+"j "+String(mm).padStart(2,'0')+"m",sub:"Event aktif • Buruan beli!"};}
+/** @returns {void} */
+function updateEventStatus(){let info=document.getElementById('eventStatusInfo');let text=document.getElementById('eventOpenText');let sec=document.getElementById('eventSection');if(!info||!text||!sec)return;let st=getEventStatus();info.innerText=st.sub;text.innerHTML=st.text;if(st.open){sec.classList.remove('closed');}else{sec.classList.add('closed');}}
+/** @returns {void} */
+window.openEventModal=function(){if(!isEventOpen()){let st=getEventStatus();showToast("⏰ "+st.sub.toUpperCase());return;}currentEventFilter="";let searchEl=document.getElementById('eventSearchInput');if(searchEl)searchEl.value="";document.getElementById('eventModal').classList.add('active');renderEventList();};
+/** @returns {void} */
+window.closeEventModal=function(){document.getElementById('eventModal').classList.remove('active');};
+/** @param {string} q @returns {void} */
+window.filterEventList=function(q){currentEventFilter=(q||"").toLowerCase();renderEventList();};
+/** @returns {void} */
+function renderEventList(){let container=document.getElementById('eventItemContainer');if(!container)return;container.innerHTML='';let filtered=EVENT_ITEMS.filter(function(it){if(!currentEventFilter)return true;return String(it.name).toLowerCase().indexOf(currentEventFilter)!==-1;});if(filtered.length===0){container.innerHTML=currentEventFilter?'<div class="empty-inv">[ TIDAK ADA ITEM COCOK ]</div>':'<div class="empty-inv">[ TIDAK ADA ITEM EVENT ]</div>';return;}for(let i=0;i<filtered.length;i++){let item=filtered[i];let div=document.createElement('div');div.className="event-item-row";div.innerHTML='<div class="inv-info"><span class="event-item-name">🔥 '+escapeHtml(item.name)+'</span><span class="event-item-price">Rp '+item.price.toLocaleString('id-ID')+'</span></div><button class="event-buy-btn" onclick="window.buyEventItem(\''+item.id+'\')">BELI</button>';container.appendChild(div);}}
+/** @param {string} itemId @returns {void} */
+window.buyEventItem=function(itemId){if(!isEventOpen()){showToast("⏰ EVENT SUDAH BERAKHIR ATAU BELUM DIBUKA!");return;}let item=EVENT_ITEMS.find(function(x){return x.id===itemId;});if(!item){showToast("❌ ITEM TIDAK DITEMUKAN!");return;}if(state.balance<item.price){showToast("❌ SALDO KURANG! BUTUH Rp "+item.price.toLocaleString('id-ID'));return;}if(!confirm("Beli "+item.name+" dengan Rp "+item.price.toLocaleString('id-ID')+"?"))return;state.balance-=item.price;state.inventory[itemId]=(state.inventory[itemId]||0)+1;syncAndUI();showToast("🔥 "+item.name+" BERHASIL DIBELI!");renderEventList();};
+/** @type {string} */ let currentTagFilter="";
+/** @returns {void} */
+window.openTagModal=function(){currentTagFilter="";let s=document.getElementById('tagSearchInput');if(s)s.value="";document.getElementById('tagModal').classList.add('active');renderTagList();};
+/** @returns {void} */
+window.closeTagModal=function(){document.getElementById('tagModal').classList.remove('active');};
+/** @param {string} q @returns {void} */
+window.filterTagList=function(q){currentTagFilter=(q||"").toLowerCase();renderTagList();};
+/** @returns {void} */
+function renderTagList(){let container=document.getElementById('tagItemContainer');if(!container)return;container.innerHTML='';let keys=Object.keys(state.inventory).filter(function(id){return state.inventory[id]>0&&findItemById(id);});let filtered=keys.filter(function(id){let it=findItemById(id);if(!it)return false;if(!currentTagFilter)return true;return String(it.name).toLowerCase().indexOf(currentTagFilter)!==-1;});if(filtered.length===0){container.innerHTML='<div class="empty-inv">[ TIDAK ADA ITEM ]</div>';return;}for(let i=0;i<filtered.length;i++){let id=filtered[i];let it=findItemById(id);if(!it)continue;let isEv=EVENT_ITEMS.some(function(x){return x.id===it.id;});let isActive=(state.activeTag===id);let div=document.createElement('div');div.className="tag-item-row bg-"+it.rarity;let titleCls='inv-title rarity-'+it.rarity+(isEv?' event-tag':'');let titleStyle=isEv?'display:inline-block;padding:1px 6px;border-radius:6px;':'';div.innerHTML='<div class="inv-info"><span class="'+titleCls+'" style="'+titleStyle+'">'+escapeHtml(it.name)+' (x'+state.inventory[id]+')</span><span class="inv-sub">Rarity: '+it.rarity.toUpperCase()+'</span></div><button class="tag-pick-btn'+(isActive?' active':'')+'" onclick="window.pickTag(\''+id+'\')">'+(isActive?'✓ DIPAKAI':'PAKAI')+'</button>';container.appendChild(div);}}
+/** @param {string} itemId @returns {void} */
+window.pickTag=function(itemId){if(state.activeTag===itemId){state.activeTag="";saveData('activeTag',state.activeTag);syncAndUI();renderTagList();showToast("✅ TAG DILEPAS");return;}let it=findItemById(itemId);if(!it){showToast("❌ ITEM TIDAK DITEMUKAN!");return;}state.activeTag=itemId;saveData('activeTag',state.activeTag);syncAndUI();renderTagList();showToast("🏷️ TAG DIPAKAI: "+it.name);};
+setInterval(updateEventStatus,1000);
+syncAndUI();
+window.refreshGuildChatBtn();
+updateEventStatus();
+</script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import{getDatabase,ref,update,onValue,push,set,remove}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+const firebaseConfig={apiKey:"AIzaSyB7Y-Jzn8Nomcoe8U2r-3NgNnJhA8_LjdM",authDomain:"cyber-gacha-core.firebaseapp.com",databaseURL:"https://cyber-gacha-core-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"cyber-gacha-core",storageBucket:"cyber-gacha-core.firebasestorage.app",messagingSenderId:"598660945454",appId:"1:598660945454:web:30cb172652ea3ce668b1bf",measurementId:"G-LMX3MMZZJS"};
+/** @type {*} */ let app;
+/** @type {*} */ let db;
+try{app=initializeApp(firebaseConfig);db=getDatabase(app);}
+catch(e){console.error("Firebase init error:",e);window.fbState={ready:false,users:[],friends:[],incoming:[],outgoing:[],myUid:"",myUsername:""};}
+/** @type {string} */ let myUid=localStorage.getItem('cyber_myUid')||'';
+if(!myUid){myUid='u_'+Math.random().toString(36).substring(2,14)+Date.now().toString(36);localStorage.setItem('cyber_myUid',myUid);}
+/** @type {string} */ let myUsername=localStorage.getItem('cyber_myUsername')||'';
+if(!myUsername){myUsername='Agent_'+Math.floor(Math.random()*9000+1000);localStorage.setItem('cyber_myUsername',myUsername);}
+/** @type {any} */ window.fbState={ready:false,users:[],friends:[],incoming:[],outgoing:[],myUid:myUid,myUsername:myUsername,myGuildId:""};
+/** @param {*} err @returns {void} */
+function logErr(err){console.error("FB error:",err);}
+/** @type {Object<string,boolean>} */ const processedGifts={};
+/** @type {*} */ let chatUnsub=null;
+/** @type {*} */ let guildChatUnsub=null;
+if(db){
+update(ref(db,'users/'+myUid),{uid:myUid,username:myUsername,lastSeen:Date.now()}).catch(logErr);
+setInterval(function(){if(db)update(ref(db,'users/'+myUid),{uid:myUid,username:myUsername,lastSeen:Date.now()}).catch(logErr);},60000);
+onValue(ref(db,'users'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};const list=Object.values(data).filter(function(u){return u&&u.uid!==myUid;});list.sort(function(a,b){return (b.lastSeen||0)-(a.lastSeen||0);});window.fbState.users=list;window.fbState.ready=true;if(typeof window.refreshFriendList==='function')window.refreshFriendList();if(document.getElementById('chatListModal').classList.contains('active'))renderChatList();},
+/** @param {*} err */
+function(err){logErr(err);window.fbState.ready=true;if(typeof window.refreshFriendList==='function')window.refreshFriendList();});
+onValue(ref(db,'users/'+myUid+'/friends'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};window.fbState.friends=Object.keys(data);if(typeof window.refreshFriendList==='function')window.refreshFriendList();if(document.getElementById('chatListModal').classList.contains('active'))renderChatList();},logErr);
+onValue(ref(db,'users/'+myUid+'/guildId'),
+/** @param {*} snapshot */
+function(snapshot){const gid=snapshot.val();window.fbState.myGuildId=gid||"";if(typeof window.refreshGuildChatBtn==='function')window.refreshGuildChatBtn();syncAndUI();},logErr);
+onValue(ref(db,'guilds'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};const keys=Object.keys(data);const list=[];for(let i=0;i<keys.length;i++){let g=data[keys[i]];if(!g)continue;list.push({id:keys[i],name:g.name||"",owner:g.owner||"",memberCount:g.memberCount||0,minMembers:g.minMembers||1,maxMembers:g.maxMembers||999,joinPolicy:g.joinPolicy||"everyone"});}allGuilds=list;},logErr);
+  onValue(ref(db,'users/'+myUid+'/friendRequests'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};window.fbState.incoming=Object.keys(data);if(typeof window.refreshFriendList==='function')window.refreshFriendList();},logErr);
+onValue(ref(db,'users/'+myUid+'/sentRequests'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};window.fbState.outgoing=Object.keys(data);if(typeof window.refreshFriendList==='function')window.refreshFriendList();},logErr);
+onValue(ref(db,'users/'+myUid+'/pendingGifts'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};const keys=Object.keys(data);for(let i=0;i<keys.length;i++){const gk=keys[i];if(processedGifts[gk])continue;processedGifts[gk]=true;const g=data[gk];if(!g||!g.itemId){remove(ref(db,'users/'+myUid+'/pendingGifts/'+gk)).catch(logErr);continue;}if(typeof window.receiveGift==='function'){window.receiveGift(g.itemId,g.fromName||'TEMAN');}remove(ref(db,'users/'+myUid+'/pendingGifts/'+gk)).catch(logErr);}},logErr);
+/** @param {string} toUid @returns {Promise<void>} */
+window.fbSendRequest=function(toUid){const updates={};updates['users/'+myUid+'/sentRequests/'+toUid]=true;updates['users/'+toUid+'/friendRequests/'+myUid]=true;return update(ref(db),updates);};
+/** @param {string} fromUid @returns {Promise<void>} */
+window.fbAcceptRequest=function(fromUid){const updates={};updates['users/'+myUid+'/friends/'+fromUid]=true;updates['users/'+fromUid+'/friends/'+myUid]=true;updates['users/'+myUid+'/friendRequests/'+fromUid]=null;updates['users/'+fromUid+'/sentRequests/'+myUid]=null;return update(ref(db),updates);};
+/** @param {string} fromUid @returns {Promise<void>} */
+window.fbRejectRequest=function(fromUid){const updates={};updates['users/'+myUid+'/friendRequests/'+fromUid]=null;updates['users/'+fromUid+'/sentRequests/'+myUid]=null;return update(ref(db),updates);};
+/** @param {string} newName @returns {Promise<void>} */
+window.fbUpdateUsername=function(newName){window.fbState.myUsername=newName;return update(ref(db,'users/'+myUid),{uid:myUid,username:newName,lastSeen:Date.now()});};
+/** @param {string} toUid @param {string} itemId @param {string} fromName @returns {Promise<void>} */
+window.fbSendGift=function(toUid,itemId,fromName){const giftsRef=ref(db,'users/'+toUid+'/pendingGifts');const newRef=push(giftsRef);return set(newRef,{fromUid:myUid,fromName:fromName,itemId:itemId,timestamp:Date.now()});};
+/** @param {string} uid1 @param {string} uid2 @returns {string} */
+function getChatId(uid1,uid2){return uid1<uid2?(uid1+"__"+uid2):(uid2+"__"+uid1);}
+/** @param {string} otherUid @param {(msgs:Array<{from:string,text:string,tag:string,timestamp:number}>)=>void} callback @returns {void} */
+window.fbListenChat=function(otherUid,callback){if(chatUnsub){chatUnsub();chatUnsub=null;}const chatId=getChatId(myUid,otherUid);chatUnsub=onValue(ref(db,'chats/'+chatId+'/messages'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};const keys=Object.keys(data);const msgs=[];for(let i=0;i<keys.length;i++){let m=data[keys[i]];if(!m)continue;msgs.push({from:m.from||"",text:m.text||"",tag:m.tag||"",timestamp:m.timestamp||0});}msgs.sort(function(a,b){return (a.timestamp||0)-(b.timestamp||0);});callback(msgs);},logErr);};
+/** @returns {void} */
+window.fbStopChatListener=function(){if(chatUnsub){chatUnsub();chatUnsub=null;}};
+/** @param {string} toUid @param {string} text @param {string} tag @returns {Promise<void>} */
+window.fbSendMessage=function(toUid,text,tag){const chatId=getChatId(myUid,toUid);const msgRef=push(ref(db,'chats/'+chatId+'/messages'));const msg={from:myUid,text:text,timestamp:Date.now()};if(tag)msg.tag=tag;return set(msgRef,msg);};
+/** @param {string} otherUid @returns {Promise<void>} */
+window.fbClearChatMessages=function(otherUid){const chatId=getChatId(myUid,otherUid);return remove(ref(db,'chats/'+chatId+'/messages'));};
+  /** @param {string} name @param {number} minMembers @param {number} maxMembers @param {string} policy @returns {Promise<{success:boolean,reason?:string,guildId?:string}>} */
+window.fbCreateGuild=function(name,minMembers,maxMembers,policy){return new Promise(function(resolve){onValue(ref(db,'guilds'),
+/** @param {*} snap */
+function(snap){const data=snap.val()||{};const keys=Object.keys(data);for(let i=0;i<keys.length;i++){let g=data[keys[i]];if(g&&g.name&&String(g.name).toLowerCase()===name.toLowerCase()){resolve({success:false,reason:"NAMA GUILD SUDAH DIPAKAI!"});return;}}const newRef=push(ref(db,'guilds'));const gid=newRef.key||"";const updates={};updates['guilds/'+gid+'/name']=name;updates['guilds/'+gid+'/owner']=myUid;updates['guilds/'+gid+'/ownerName']=myUsername;updates['guilds/'+gid+'/minMembers']=minMembers;updates['guilds/'+gid+'/maxMembers']=maxMembers;updates['guilds/'+gid+'/joinPolicy']=policy;updates['guilds/'+gid+'/createdAt']=Date.now();updates['guilds/'+gid+'/memberCount']=1;updates['guilds/'+gid+'/members/'+myUid]=true;updates['users/'+myUid+'/guildId']=gid;update(ref(db),updates).then(function(){window.fbState.myGuildId=gid;if(typeof window.refreshGuildChatBtn==='function')window.refreshGuildChatBtn();resolve({success:true,guildId:gid});}).catch(
+/** @param {*} err */
+function(err){logErr(err);resolve({success:false,reason:"GAGAL SIMPAN KE SERVER"});});},{onlyOnce:true});});};
+/** @param {string} guildId @returns {Promise<{success:boolean,reason?:string}>} */
+window.fbJoinGuild=function(guildId){return new Promise(function(resolve){onValue(ref(db,'guilds/'+guildId),
+/** @param {*} snap */
+function(snap){const g=snap.val();if(!g){resolve({success:false,reason:"GUILD TIDAK DITEMUKAN"});return;}let maxMembers=g.maxMembers||999;let memberCount=g.memberCount||0;if(memberCount>=maxMembers){resolve({success:false,reason:"GUILD SUDAH PENUH ("+memberCount+"/"+maxMembers+")"});return;}if(g.joinPolicy==="friends"){if(g.owner===myUid){}else if(window.fbState&&window.fbState.friends&&window.fbState.friends.indexOf(g.owner)===-1){resolve({success:false,reason:"GUILD INI HANYA UNTUK TEMAN OWNER"});return;}}const updates={};updates['guilds/'+guildId+'/members/'+myUid]=true;updates['guilds/'+guildId+'/memberCount']=memberCount+1;updates['users/'+myUid+'/guildId']=guildId;update(ref(db),updates).then(function(){window.fbState.myGuildId=guildId;if(typeof window.refreshGuildChatBtn==='function')window.refreshGuildChatBtn();resolve({success:true});}).catch(
+/** @param {*} err */
+function(err){logErr(err);resolve({success:false,reason:"GAGAL SIMPAN"});});},{onlyOnce:true});});};
+/** @returns {Promise<{success:boolean,reason?:string}>} */
+window.fbLeaveGuild=function(){return new Promise(function(resolve){const gid=window.fbState.myGuildId;if(!gid){resolve({success:false,reason:"TIDAK ADA GUILD"});return;}onValue(ref(db,'guilds/'+gid),
+/** @param {*} snap */
+function(snap){const g=snap.val();const updates={};if(g){updates['guilds/'+gid+'/members/'+myUid]=null;updates['guilds/'+gid+'/memberCount']=Math.max(0,(g.memberCount||1)-1);}updates['users/'+myUid+'/guildId']=null;update(ref(db),updates).then(function(){window.fbState.myGuildId="";if(typeof window.refreshGuildChatBtn==='function')window.refreshGuildChatBtn();resolve({success:true});}).catch(
+/** @param {*} err */
+function(err){logErr(err);resolve({success:false,reason:"GAGAL SIMPAN"});});},{onlyOnce:true});});};
+/** @param {string} guildId @param {string} text @param {string} fromName @param {string} tag @returns {Promise<void>} */
+window.fbSendGuildMessage=function(guildId,text,fromName,tag){const msgRef=push(ref(db,'guilds/'+guildId+'/messages'));const msg={from:myUid,fromName:fromName,text:text,timestamp:Date.now()};if(tag)msg.tag=tag;return set(msgRef,msg);};
+/** @param {string} guildId @param {(msgs:Array<{from:string,fromName:string,text:string,tag:string,timestamp:number}>)=>void} callback @returns {void} */
+window.fbListenGuildChat=function(guildId,callback){if(guildChatUnsub){guildChatUnsub();guildChatUnsub=null;}guildChatUnsub=onValue(ref(db,'guilds/'+guildId+'/messages'),
+/** @param {*} snapshot */
+function(snapshot){const data=snapshot.val()||{};const keys=Object.keys(data);const msgs=[];for(let i=0;i<keys.length;i++){let m=data[keys[i]];if(!m)continue;msgs.push({from:m.from||"",fromName:m.fromName||"Anonim",text:m.text||"",tag:m.tag||"",timestamp:m.timestamp||0});}msgs.sort(function(a,b){return (a.timestamp||0)-(b.timestamp||0);});callback(msgs);},logErr);};
+/** @returns {void} */
+window.fbStopGuildChatListener=function(){if(guildChatUnsub){guildChatUnsub();guildChatUnsub=null;}};
+/** @param {string} guildId @returns {Promise<void>} */
+window.fbClearGuildChatMessages=function(guildId){return remove(ref(db,'guilds/'+guildId+'/messages'));};
+}else{window.fbState.ready=true;window.fbSendRequest=function(){return Promise.reject("Firebase not initialized");};window.fbAcceptRequest=function(){return Promise.reject("Firebase not initialized");};window.fbRejectRequest=function(){return Promise.reject("Firebase not initialized");};window.fbUpdateUsername=function(){return Promise.reject("Firebase not initialized");};window.fbSendGift=function(){return Promise.reject("Firebase not initialized");};window.fbListenChat=function(){return Promise.reject("Firebase not initialized");};window.fbStopChatListener=function(){};window.fbSendMessage=function(){return Promise.reject("Firebase not initialized");};window.fbClearChatMessages=function(){return Promise.reject("Firebase not initialized");};window.fbCreateGuild=function(){return Promise.resolve({success:false,reason:"Firebase not initialized"});};window.fbJoinGuild=function(){return Promise.resolve({success:false,reason:"Firebase not initialized"});};window.fbLeaveGuild=function(){return Promise.resolve({success:false,reason:"Firebase not initialized"});};window.fbSendGuildMessage=function(){return Promise.reject("Firebase not initialized");};window.fbListenGuildChat=function(){return Promise.reject("Firebase not initialized");};window.fbStopGuildChatListener=function(){};window.fbClearGuildChatMessages=function(){return Promise.reject("Firebase not initialized");};}
+</script>
+</body>
+</html>
